@@ -34,12 +34,14 @@ const RECENT_ALBUMS = [
   {
     title: "CALL ME IF YOU GET LOST",
     artist: "Tyler, The Creator",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 2
   },
   {
     title: "Mr. Morale & the Big Steppers",
     artist: "Kendrick Lamar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 3
   },
   {
     title: "Renaissance",
@@ -49,16 +51,18 @@ const RECENT_ALBUMS = [
   {
     title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 1
   },
 ]
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
 
-  const handleBadBunnyClick = () => {
-    // Set to Bad Bunny song (index 1)
-    setCurrentSongIndex(1)
+  const handleAlbumClick = (songIndex: number) => {
+    if (songIndex !== undefined) {
+      setCurrentSongIndex(songIndex)
+    }
   }
 
   return (
@@ -94,11 +98,7 @@ export default function IndexPage() {
               <div 
                 key={i} 
                 className="bg-card rounded-lg p-4 hover:bg-card/80 transition group cursor-pointer"
-                onClick={() => {
-                  if (album.title === "Un Verano Sin Ti") {
-                    handleBadBunnyClick()
-                  }
-                }}
+                onClick={() => handleAlbumClick(album.songIndex)}
               >
                 <div className="relative mb-4">
                   <img 
