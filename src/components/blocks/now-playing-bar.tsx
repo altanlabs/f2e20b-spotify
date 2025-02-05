@@ -50,15 +50,16 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
 
-  // Stop any playing audio when song changes
+  // Handle song changes and autoplay
   useEffect(() => {
     if (audioRef.current) {
+      // Always stop current playback and reset
       audioRef.current.pause()
       audioRef.current.currentTime = 0
       setCurrentTime(0)
       setIsPlaying(false)
-      
-      // Only play if autoplay is true (clicked from playlist)
+
+      // Only start playing if autoplay is true (clicked from playlist)
       if (autoplay) {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
@@ -80,11 +81,13 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
     const updateTime = () => setCurrentTime(audio.currentTime)
     const handleLoadedMetadata = () => setDuration(audio.duration)
     const handleEnded = () => {
+      audio.pause()
+      audio.currentTime = 0
+      setIsPlaying(false)
       if (isRepeat) {
-        audio.currentTime = 0
         audio.play()
-      } else {
-        setIsPlaying(false)
+          .then(() => setIsPlaying(true))
+          .catch(console.error)
       }
     }
 
@@ -167,8 +170,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
           <audio 
             ref={audioRef}
             src={currentSong.url}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
           />
           
           <button 
@@ -189,8 +190,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
         <audio 
           ref={audioRef}
           src={currentSong.url}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
         />
         <div className="h-full flex items-center justify-between">
           <div className="flex items-center gap-4 w-[30%]">
