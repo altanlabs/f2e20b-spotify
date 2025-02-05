@@ -1,4 +1,4 @@
-import { Play, SkipBack, SkipForward, Repeat, Shuffle, Volume2 } from "lucide-react"
+import { Play, SkipBack, SkipForward, Repeat, Shuffle, Volume2, Heart } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
 
 export function NowPlayingBar() {
@@ -6,11 +6,18 @@ export function NowPlayingBar() {
     <div className="h-24 bg-card border-t px-4">
       <div className="h-full flex items-center justify-between">
         <div className="flex items-center gap-4 w-[30%]">
-          <div className="w-14 h-14 bg-neutral-800 rounded" />
+          <img 
+            src="https://i.scdn.co/image/ab67616d00001e02fd997b0cba8c89d34375ebe5" 
+            alt="CALL ME IF YOU GET LOST" 
+            className="w-14 h-14 rounded object-cover"
+          />
           <div>
-            <p className="text-sm font-medium">Song Title</p>
-            <p className="text-xs text-muted-foreground">Artist</p>
+            <p className="text-sm font-medium">LIKE HIM</p>
+            <p className="text-xs text-muted-foreground">Tyler, The Creator</p>
           </div>
+          <button className="text-muted-foreground hover:text-primary transition">
+            <Heart size={16} />
+          </button>
         </div>
         
         <div className="flex flex-col items-center gap-2 w-[40%]">
@@ -32,21 +39,21 @@ export function NowPlayingBar() {
             </button>
           </div>
           <div className="flex items-center gap-2 w-full max-w-md">
-            <span className="text-xs text-muted-foreground">0:00</span>
+            <span className="text-xs text-muted-foreground">1:23</span>
             <Slider
-              defaultValue={[0]}
+              defaultValue={[35]}
               max={100}
               step={1}
               className="w-full"
             />
-            <span className="text-xs text-muted-foreground">3:45</span>
+            <span className="text-xs text-muted-foreground">3:31</span>
           </div>
         </div>
         
         <div className="flex items-center gap-2 w-[30%] justify-end">
           <Volume2 size={20} className="text-muted-foreground" />
           <Slider
-            defaultValue={[100]}
+            defaultValue={[80]}
             max={100}
             step={1}
             className="w-24"
