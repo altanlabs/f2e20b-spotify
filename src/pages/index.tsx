@@ -1,37 +1,26 @@
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { motion } from "framer-motion"
-import { ArrowRight } from "lucide-react"
-import { useNavigate } from "react-router-dom"
-
+import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
+import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 
 export default function IndexPage() {
-  const navigate = useNavigate()
-
   return (
-    <div className="container mx-auto px-4 py-16 space-y-32">
-      {/* Hero Section */}
-      <motion.section 
-        className="text-center space-y-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <Badge variant="secondary" className="mb-4">
-          Welcome to Your New App
-        </Badge>
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-          Build Beautiful Interfaces
-          <br />
-          With Altan AI
-        </h1>
-        <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
-          Start chatting to edit this app.
-        </p>
-        <Button size="lg" className="mt-4" onClick={() => navigate('/')}>
-          Cool button <ArrowRight className="ml-2 h-4 w-4" />
-        </Button>
-      </motion.section>
+    <div className="h-screen flex flex-col">
+      <div className="flex-1 flex overflow-hidden">
+        <aside className="w-64 bg-neutral-900">
+          <SpotifySidebar />
+        </aside>
+        <main className="flex-1 bg-neutral-800 p-6 overflow-auto">
+          <h1 className="text-2xl font-bold mb-4">Good Evening</h1>
+          <div className="grid grid-cols-3 gap-4">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="bg-neutral-700 rounded-lg p-4">
+                <div className="w-full h-32 bg-neutral-600 rounded-lg mb-2" />
+                <p className="text-sm font-medium">Playlist {i + 1}</p>
+              </div>
+            ))}
+          </div>
+        </main>
+      </div>
+      <NowPlayingBar />
     </div>
   )
 }
