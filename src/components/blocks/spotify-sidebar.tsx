@@ -1,12 +1,30 @@
 import { Home, Search, Library, Plus, Heart } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
+const PLAYLISTS = [
+  {
+    title: "Daily Mix 1",
+    type: "Mix",
+    image: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb180a06a4a587e3e0f6ef1a45/1/en/default"
+  },
+  {
+    title: "Discover Weekly",
+    type: "Playlist",
+    image: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v2/discover-weekly/aAbca4VNfzWuUCQ_FGiEFA==/bmVuZW5lbmVuZW5lbmVuZQ=="
+  },
+  {
+    title: "Release Radar",
+    type: "Playlist",
+    image: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v2/release-radar/ab6761610000e5ebf2855a202c6abd1c38265dcc/en"
+  }
+]
+
 export function SpotifySidebar() {
   return (
     <div className="flex flex-col gap-2 h-full">
       <div className="bg-card rounded-lg p-6">
         <nav className="space-y-4">
-          <a className="flex items-center gap-4 text-sm font-medium text-muted-foreground hover:text-primary transition">
+          <a className="flex items-center gap-4 text-sm font-medium text-primary hover:text-primary/80 transition">
             <Home size={24} />
             Home
           </a>
@@ -36,15 +54,20 @@ export function SpotifySidebar() {
               </div>
               <div>
                 <p className="font-semibold">Liked Songs</p>
-                <p className="text-xs text-muted-foreground">Playlist • 123 songs</p>
+                <p className="text-xs text-muted-foreground">Playlist • 234 songs</p>
               </div>
             </button>
-            {Array.from({length: 10}).map((_, i) => (
+            
+            {PLAYLISTS.map((playlist, i) => (
               <button key={i} className="flex items-center gap-4 w-full text-left text-sm font-medium text-muted-foreground hover:text-primary transition">
-                <div className="w-12 h-12 bg-neutral-800 rounded-lg" />
+                <img 
+                  src={playlist.image} 
+                  alt={playlist.title}
+                  className="w-12 h-12 rounded-lg object-cover" 
+                />
                 <div>
-                  <p className="font-semibold">Playlist {i + 1}</p>
-                  <p className="text-xs text-muted-foreground">Playlist • User</p>
+                  <p className="font-semibold">{playlist.title}</p>
+                  <p className="text-xs text-muted-foreground">{playlist.type} • Spotify</p>
                 </div>
               </button>
             ))}
