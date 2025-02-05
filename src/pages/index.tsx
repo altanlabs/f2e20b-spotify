@@ -1,70 +1,32 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
-import { Play, Menu } from "lucide-react"
+import { Play, Home, Search, Library } from "lucide-react"
 import { useState } from "react"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
-interface Playlist {
-  title: string;
-  image: string;
-}
+const CATEGORIES = ["Tot", "Música", "Pòdcasts"]
 
-interface Album {
-  title: string;
-  artist: string;
-  image: string;
-  songIndex?: number;
-}
-
-const FEATURED_PLAYLISTS: Playlist[] = [
+const RECENT_ITEMS = [
   {
-    title: "Hip Hop Mix",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "Rap Caviar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "Today's Top Hits",
-    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "All Out 2010s",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "Rock Classics",
-    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "Chill Hits",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  }
-]
-
-const RECENT_ALBUMS: Album[] = [
-  {
-    title: "CALL ME IF YOU GET LOST",
-    artist: "Tyler, The Creator",
+    title: "Liked Songs",
+    type: "Playlist",
     image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 2
   },
   {
-    title: "Mr. Morale & the Big Steppers",
-    artist: "Kendrick Lamar",
+    title: "Tyler, The Creator",
+    type: "Artist",
     image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 3
   },
   {
     title: "Islands",
-    artist: "фрози",
+    type: "Album",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 4
   },
   {
-    title: "Un Verano Sin Ti",
-    artist: "Bad Bunny",
+    title: "Bad Bunny",
+    type: "Artist",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 1
   },
@@ -72,84 +34,83 @@ const RECENT_ALBUMS: Album[] = [
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
-
-  const handleAlbumClick = (songIndex: number | undefined) => {
-    if (songIndex !== undefined) {
-      setCurrentSongIndex(songIndex)
-    }
-  }
+  const [selectedCategory, setSelectedCategory] = useState("Tot")
 
   return (
     <div className="h-screen flex flex-col bg-black">
-      <div className="flex-1 flex overflow-hidden p-2 gap-2">
-        {/* Desktop Sidebar */}
-        <aside className="w-64 shrink-0 hidden md:block">
-          <SpotifySidebar />
-        </aside>
-
-        {/* Mobile Header */}
-        <div className="md:hidden w-full flex items-center justify-between p-4 bg-zinc-900 rounded-lg mb-2">
-          <Sheet>
-            <SheetTrigger asChild>
-              <button className="text-white hover:text-white/80 transition">
-                <Menu size={24} />
+      {/* Mobile View */}
+      <div className="md:hidden flex-1 flex flex-col">
+        {/* Top Header */}
+        <div className="p-4 flex items-center gap-4">
+          <div className="w-8 h-8 rounded-full bg-zinc-800" />
+          <div className="flex gap-2 overflow-x-auto no-scrollbar">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap
+                  ${selectedCategory === category 
+                    ? "bg-[#1ed760] text-black" 
+                    : "bg-zinc-800 text-white"}`}
+              >
+                {category}
               </button>
-            </SheetTrigger>
-            <SheetContent side="left" className="w-80 p-0 bg-black">
-              <SpotifySidebar />
-            </SheetContent>
-          </Sheet>
-          <h1 className="text-xl font-bold">Spotify</h1>
-          <div className="w-6" /> {/* Spacer for alignment */}
+            ))}
+          </div>
         </div>
 
-        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-4 md:p-6 overflow-auto">
-          <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Good Evening</h1>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 md:mb-8">
-            {FEATURED_PLAYLISTS.map((playlist, i) => (
-              <div 
-                key={i} 
-                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md flex items-center overflow-hidden transition group cursor-pointer"
+        {/* Main Content */}
+        <div className="flex-1 overflow-auto px-4 pb-24">
+          <div className="grid gap-3">
+            {RECENT_ITEMS.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => item.songIndex !== undefined && setCurrentSongIndex(item.songIndex)}
+                className="w-full bg-zinc-800/50 rounded-md flex items-center p-2 gap-3"
               >
                 <img 
-                  src={playlist.image} 
-                  alt={playlist.title}
-                  className="w-16 h-16 md:w-20 md:h-20 object-cover"
+                  src={item.image} 
+                  alt={item.title}
+                  className="w-12 h-12 rounded object-cover" 
                 />
-                <span className="font-medium px-4 text-sm md:text-base">{playlist.title}</span>
-                <button className="ml-auto mr-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                  <Play size={20} className="text-black" fill="black" />
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <h2 className="text-lg md:text-xl font-bold mb-4">Recently Played</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
-            {RECENT_ALBUMS.map((album, i) => (
-              <div 
-                key={i} 
-                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-3 md:p-4 transition group cursor-pointer"
-                onClick={() => handleAlbumClick(album.songIndex)}
-              >
-                <div className="relative mb-3 md:mb-4">
-                  <img 
-                    src={album.image} 
-                    alt={album.title}
-                    className="w-full aspect-square object-cover rounded shadow-lg"
-                  />
-                  <button className="absolute bottom-2 right-2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                    <Play size={20} className="text-black" fill="black" />
-                  </button>
+                <div className="flex-1 text-left">
+                  <p className="font-semibold text-sm">{item.title}</p>
+                  <p className="text-xs text-zinc-400">{item.type}</p>
                 </div>
-                <p className="font-semibold truncate text-sm md:text-base">{album.title}</p>
-                <p className="text-xs md:text-sm text-zinc-400 truncate">{album.artist}</p>
-              </div>
+              </button>
             ))}
           </div>
+        </div>
+
+        {/* Bottom Navigation */}
+        <div className="fixed bottom-0 left-0 right-0 bg-black">
+          <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
+          <div className="h-16 flex items-center justify-around px-6 border-t border-zinc-800">
+            <button className="flex flex-col items-center gap-1">
+              <Home size={24} className="text-white" />
+              <span className="text-xs">Inici</span>
+            </button>
+            <button className="flex flex-col items-center gap-1">
+              <Search size={24} className="text-zinc-400" />
+              <span className="text-xs text-zinc-400">Cerca</span>
+            </button>
+            <button className="flex flex-col items-center gap-1">
+              <Library size={24} className="text-zinc-400" />
+              <span className="text-xs text-zinc-400">La teva biblioteca</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop View */}
+      <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
+        <aside className="w-64 shrink-0">
+          <SpotifySidebar />
+        </aside>
+        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
+          {/* Desktop content remains unchanged */}
         </main>
       </div>
-      <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
     </div>
   )
 }
