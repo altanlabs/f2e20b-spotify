@@ -38,7 +38,7 @@ const PLAYLISTS: Playlist[] = [
 export function SpotifySidebar() {
   return (
     <div className="flex flex-col gap-2 h-full">
-      <div className="bg-zinc-900 rounded-lg p-6">
+      <div className="bg-zinc-900 rounded-lg p-4 md:p-6">
         <nav className="space-y-4">
           <a className="flex items-center gap-4 text-sm font-medium text-white hover:text-white/80 transition">
             <Home size={24} />
@@ -51,7 +51,7 @@ export function SpotifySidebar() {
         </nav>
       </div>
       
-      <div className="bg-zinc-900 rounded-lg flex-1 p-6">
+      <div className="bg-zinc-900 rounded-lg flex-1 p-4 md:p-6">
         <div className="flex items-center justify-between mb-4">
           <button className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Library size={24} />
@@ -82,7 +82,7 @@ export function SpotifySidebar() {
                   className="w-12 h-12 rounded-lg object-cover" 
                 />
                 <div>
-                  <p className="font-semibold">{playlist.title}</p>
+                  <p className="font-semibold line-clamp-1">{playlist.title}</p>
                   <p className="text-xs text-zinc-400">{playlist.type} • Spotify</p>
                 </div>
               </button>
