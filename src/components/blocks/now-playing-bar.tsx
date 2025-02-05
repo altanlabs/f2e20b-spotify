@@ -14,10 +14,22 @@ const SONGS = [
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     url: "https://api.altan.ai/platform/media/d2f6b6cc-99bf-48ca-9d86-b890f654f6e5?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "SWEET / I THOUGHT YOU WANTED TO DANCE",
+    artist: "Tyler, The Creator",
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/91e4e836-737e-443e-af7b-d17e0da5c1a2?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "N95",
+    artist: "Kendrick Lamar",
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/cf0646e0-bf34-4a29-850c-eaedf89dca12?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
-export function NowPlayingBar() {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -25,7 +37,6 @@ export function NowPlayingBar() {
   const [volume, setVolume] = useState(80)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
 
   useEffect(() => {
     if (audioRef.current) {
@@ -57,6 +68,12 @@ export function NowPlayingBar() {
     }
   }, [isRepeat])
 
+  useEffect(() => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.play()
+    }
+  }, [currentSongIndex])
+
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -79,20 +96,12 @@ export function NowPlayingBar() {
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
     setCurrentTime(0)
-    if (isPlaying && audioRef.current) {
-      audioRef.current.currentTime = 0
-      audioRef.current.play()
-    }
   }
 
   const handlePrevious = () => {
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
     setCurrentTime(0)
-    if (isPlaying && audioRef.current) {
-      audioRef.current.currentTime = 0
-      audioRef.current.play()
-    }
   }
 
   const formatTime = (time: number) => {
