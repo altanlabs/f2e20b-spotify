@@ -59,17 +59,6 @@ const RECENT_ALBUMS = [
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [autoplay, setAutoplay] = useState(false)
-
-  const handleSongSelect = (songIndex: number) => {
-    setAutoplay(true)  // Set autoplay true only when clicking a song
-    setCurrentSongIndex(songIndex)
-  }
-
-  const handleSongChange = (newIndex: number) => {
-    setAutoplay(false)  // Don't autoplay when using controls
-    setCurrentSongIndex(newIndex)
-  }
 
   const MainContent = () => (
     <>
@@ -99,7 +88,7 @@ export default function IndexPage() {
           <div 
             key={i} 
             className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
-            onClick={() => album.songIndex !== undefined && handleSongSelect(album.songIndex)}
+            onClick={() => album.songIndex !== undefined && setCurrentSongIndex(album.songIndex)}
           >
             <div className="relative mb-4">
               <img 
@@ -136,11 +125,7 @@ export default function IndexPage() {
         </div>
 
         {/* Player Bar */}
-        <NowPlayingBar 
-          currentSongIndex={currentSongIndex} 
-          setCurrentSongIndex={handleSongChange}
-          autoplay={autoplay}
-        />
+        <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
       </div>
 
       {/* Desktop View */}
@@ -154,11 +139,7 @@ export default function IndexPage() {
       </div>
       {/* Desktop Player */}
       <div className="hidden md:block">
-        <NowPlayingBar 
-          currentSongIndex={currentSongIndex} 
-          setCurrentSongIndex={handleSongChange}
-          autoplay={autoplay}
-        />
+        <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
       </div>
     </div>
   )
