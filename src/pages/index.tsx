@@ -5,27 +5,27 @@ import { Play } from "lucide-react"
 const FEATURED_PLAYLISTS = [
   {
     title: "Hip Hop Mix",
-    image: "https://i.scdn.co/image/ab67706f00000002ca5a7517156021292e5663a6"
+    image: "https://i.scdn.co/image/ab67706f00000002e0b11c208c7b59dacf9d5aab"
   },
   {
     title: "Rap Caviar",
-    image: "https://i.scdn.co/image/ab67706c0000da84bfb6d68ea62c811b9ba9dd64"
+    image: "https://i.scdn.co/image/ab67706c0000da84ae39b4e29fa5f5c2476e8fef"
   },
   {
     title: "Today's Top Hits",
-    image: "https://i.scdn.co/image/ab67706f000000025e25b1d241f1d60e74f06550"
+    image: "https://i.scdn.co/image/ab67706f000000027ea4d505212b9de1f72c5112"
   },
   {
     title: "All Out 2010s",
-    image: "https://i.scdn.co/image/ab67706f00000002b0fe40a6e1692822f5a9d8f1"
+    image: "https://i.scdn.co/image/ab67706f00000002f95e0d3dd06dfc0a164af156"
   },
   {
     title: "Rock Classics",
-    image: "https://i.scdn.co/image/ab67706f0000000278b4745cb9ce8ffe32daaf7e"
+    image: "https://i.scdn.co/image/ab67706f000000025cdbe07d5c40327970f2967c"
   },
   {
     title: "Chill Hits",
-    image: "https://i.scdn.co/image/ab67706f00000002b60db5d1bcdd9c4fd1ebcffe"
+    image: "https://i.scdn.co/image/ab67706f00000002d771dc645afe9b87978f832e"
   }
 ]
 
@@ -38,17 +38,17 @@ const RECENT_ALBUMS = [
   {
     title: "Mr. Morale & the Big Steppers",
     artist: "Kendrick Lamar",
-    image: "https://i.scdn.co/image/ab67616d00001e02cd996ddf03ad77b0380549da"
+    image: "https://i.scdn.co/image/ab67616d00001e02530266e0d331edce0747f01a"
   },
   {
     title: "Renaissance",
     artist: "Beyoncé",
-    image: "https://i.scdn.co/image/ab67616d00001e0249d694203245f241a1bcaa72"
+    image: "https://i.scdn.co/image/ab67616d00001e02adf47910b8c8de2ec0739a68"
   },
   {
     title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
-    image: "https://i.scdn.co/image/ab67616d00001e0249d694203245f241a1bcaa72"
+    image: "https://i.scdn.co/image/ab67616d00001e0243cc6b03b9fda8e15c57c97c"
   },
 ]
 
