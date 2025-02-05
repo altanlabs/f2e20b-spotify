@@ -33,22 +33,22 @@ const RECENT_ALBUMS = [
   {
     title: "CALL ME IF YOU GET LOST",
     artist: "Tyler, The Creator",
-    image: "https://i.scdn.co/image/ab67616d00001e02fd997b0cba8c89d34375ebe5"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Mr. Morale & the Big Steppers",
     artist: "Kendrick Lamar",
-    image: "https://i.scdn.co/image/ab67616d00001e02530266e0d331edce0747f01a"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Renaissance",
     artist: "Beyoncé",
-    image: "https://i.scdn.co/image/ab67616d00001e02adf47910b8c8de2ec0739a68"
+    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
-    image: "https://i.scdn.co/image/ab67616d00001e0243cc6b03b9fda8e15c57c97c"
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
 ]
 
