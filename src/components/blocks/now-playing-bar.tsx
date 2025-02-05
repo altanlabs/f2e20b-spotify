@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react"
 interface NowPlayingBarProps {
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
+  autoplay?: boolean;
 }
 
 const SONGS = [
@@ -40,7 +41,7 @@ const SONGS = [
   }
 ]
 
-export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlayingBarProps) {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay = false }: NowPlayingBarProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -79,11 +80,19 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     }
   }, [isRepeat])
 
+  // Effect to handle autoplay when song changes
   useEffect(() => {
-    if (isPlaying && audioRef.current) {
-      audioRef.current.play().catch(() => setIsPlaying(false))
+    if (audioRef.current) {
+      if (autoplay) {
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch(() => setIsPlaying(false))
+      } else {
+        audioRef.current.pause()
+        setIsPlaying(false)
+      }
     }
-  }, [currentSongIndex])
+  }, [currentSongIndex, autoplay])
 
   const togglePlay = () => {
     if (audioRef.current) {
