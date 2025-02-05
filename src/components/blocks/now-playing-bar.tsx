@@ -124,91 +124,123 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
   const currentSong = SONGS[currentSongIndex]
 
   return (
-    <div className="h-20 md:h-24 bg-zinc-900 border-t border-zinc-800 px-2 md:px-4">
-      <audio 
-        ref={audioRef}
-        src={currentSong.url}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-      />
-      <div className="h-full flex items-center justify-between">
-        {/* Song Info - Hidden on very small screens */}
-        <div className="hidden sm:flex items-center gap-2 md:gap-4 w-[30%]">
+    <div className="md:hidden">
+      {/* Mobile Mini Player */}
+      <div className="bg-[#282828] p-2">
+        <div className="flex items-center gap-4">
           <img 
             src={currentSong.image}
             alt={currentSong.title}
-            className="w-12 h-12 md:w-14 md:h-14 rounded object-cover"
+            className="w-10 h-10 rounded object-cover"
           />
-          <div>
-            <p className="text-sm font-medium line-clamp-1">{currentSong.title}</p>
-            <p className="text-xs text-zinc-400 line-clamp-1">{currentSong.artist}</p>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium truncate">{currentSong.title}</p>
+            <p className="text-xs text-zinc-400 truncate">{currentSong.artist}</p>
           </div>
-          <button className="text-zinc-400 hover:text-white transition">
-            <Heart size={16} />
+          <button 
+            onClick={togglePlay}
+            className="w-8 h-8 rounded-full bg-white flex items-center justify-center"
+          >
+            {isPlaying ? (
+              <Pause size={18} className="text-black" />
+            ) : (
+              <Play size={18} className="text-black" />
+            )}
           </button>
         </div>
-        
-        {/* Player Controls */}
-        <div className="flex flex-col items-center gap-1 md:gap-2 w-full sm:w-[40%]">
-          <div className="flex items-center gap-2 md:gap-6">
-            <button 
-              className={`hidden md:block text-zinc-400 hover:text-white transition ${isShuffle ? 'text-[#1ed760]' : ''}`}
-              onClick={() => setIsShuffle(!isShuffle)}
-            >
-              <Shuffle size={20} />
-            </button>
-            <button 
-              className="text-zinc-400 hover:text-white transition"
-              onClick={handlePrevious}
-            >
-              <SkipBack size={20} />
-            </button>
-            <button 
-              onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:scale-105 transition"
-            >
-              {isPlaying ? (
-                <Pause size={18} className="text-black" />
-              ) : (
-                <Play size={18} className="text-black" />
-              )}
-            </button>
-            <button 
-              className="text-zinc-400 hover:text-white transition"
-              onClick={handleNext}
-            >
-              <SkipForward size={20} />
-            </button>
-            <button 
-              className={`hidden md:block text-zinc-400 hover:text-white transition ${isRepeat ? 'text-[#1ed760]' : ''}`}
-              onClick={() => setIsRepeat(!isRepeat)}
-            >
-              <Repeat size={20} />
-            </button>
-          </div>
-          <div className="flex items-center gap-2 w-full max-w-md px-2">
-            <span className="text-xs text-zinc-400">{formatTime(currentTime)}</span>
-            <Slider
-              value={[currentTime]}
-              max={duration || 100}
-              step={1}
-              className="w-full"
-              onValueChange={handleTimeChange}
+        <Slider
+          value={[currentTime]}
+          max={duration || 100}
+          step={1}
+          className="w-full mt-2"
+          onValueChange={handleTimeChange}
+        />
+      </div>
+
+      {/* Desktop Player - Hidden on Mobile */}
+      <div className="hidden md:block h-24 bg-zinc-900 border-t border-zinc-800 px-4">
+        <audio 
+          ref={audioRef}
+          src={currentSong.url}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+        />
+        <div className="h-full flex items-center justify-between">
+          <div className="flex items-center gap-4 w-[30%]">
+            <img 
+              src={currentSong.image}
+              alt={currentSong.title}
+              className="w-14 h-14 rounded object-cover"
             />
-            <span className="text-xs text-zinc-400">{formatTime(duration)}</span>
+            <div>
+              <p className="text-sm font-medium">{currentSong.title}</p>
+              <p className="text-xs text-zinc-400">{currentSong.artist}</p>
+            </div>
+            <button className="text-zinc-400 hover:text-white transition">
+              <Heart size={16} />
+            </button>
           </div>
-        </div>
-        
-        {/* Volume Control - Hidden on mobile */}
-        <div className="hidden md:flex items-center gap-2 w-[30%] justify-end">
-          <Volume2 size={20} className="text-zinc-400" />
-          <Slider
-            value={[volume]}
-            max={100}
-            step={1}
-            className="w-24"
-            onValueChange={(value) => setVolume(value[0])}
-          />
+          
+          <div className="flex flex-col items-center gap-2 w-[40%]">
+            <div className="flex items-center gap-6">
+              <button 
+                className={`text-zinc-400 hover:text-white transition ${isShuffle ? 'text-[#1ed760]' : ''}`}
+                onClick={() => setIsShuffle(!isShuffle)}
+              >
+                <Shuffle size={20} />
+              </button>
+              <button 
+                className="text-zinc-400 hover:text-white transition"
+                onClick={handlePrevious}
+              >
+                <SkipBack size={20} />
+              </button>
+              <button 
+                onClick={togglePlay}
+                className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:scale-105 transition"
+              >
+                {isPlaying ? (
+                  <Pause size={20} className="text-black" />
+                ) : (
+                  <Play size={20} className="text-black" />
+                )}
+              </button>
+              <button 
+                className="text-zinc-400 hover:text-white transition"
+                onClick={handleNext}
+              >
+                <SkipForward size={20} />
+              </button>
+              <button 
+                className={`text-zinc-400 hover:text-white transition ${isRepeat ? 'text-[#1ed760]' : ''}`}
+                onClick={() => setIsRepeat(!isRepeat)}
+              >
+                <Repeat size={20} />
+              </button>
+            </div>
+            <div className="flex items-center gap-2 w-full max-w-md">
+              <span className="text-xs text-zinc-400">{formatTime(currentTime)}</span>
+              <Slider
+                value={[currentTime]}
+                max={duration || 100}
+                step={1}
+                className="w-full"
+                onValueChange={handleTimeChange}
+              />
+              <span className="text-xs text-zinc-400">{formatTime(duration)}</span>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2 w-[30%] justify-end">
+            <Volume2 size={20} className="text-zinc-400" />
+            <Slider
+              value={[volume]}
+              max={100}
+              step={1}
+              className="w-24"
+              onValueChange={(value) => setVolume(value[0])}
+            />
+          </div>
         </div>
       </div>
     </div>
