@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react"
 interface NowPlayingBarProps {
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
-  autoplay: boolean;
 }
 
 const SONGS = [
@@ -41,7 +40,7 @@ const SONGS = [
   }
 ]
 
-export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay }: NowPlayingBarProps) {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlayingBarProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -49,24 +48,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const [volume, setVolume] = useState(80)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
-
-  // Handle song changes and autoplay
-  useEffect(() => {
-    if (audioRef.current) {
-      // Always stop current playback and reset
-      audioRef.current.pause()
-      audioRef.current.currentTime = 0
-      setCurrentTime(0)
-      setIsPlaying(false)
-
-      // Only start playing if autoplay is true (clicked from playlist)
-      if (autoplay) {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
-      }
-    }
-  }, [currentSongIndex, autoplay])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -80,38 +61,38 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
 
     const updateTime = () => setCurrentTime(audio.currentTime)
     const handleLoadedMetadata = () => setDuration(audio.duration)
-    const handleEnded = () => {
-      audio.pause()
-      audio.currentTime = 0
-      setIsPlaying(false)
-      if (isRepeat) {
-        audio.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
-      }
-    }
 
     audio.addEventListener('timeupdate', updateTime)
     audio.addEventListener('loadedmetadata', handleLoadedMetadata)
-    audio.addEventListener('ended', handleEnded)
+    audio.addEventListener('ended', () => {
+      if (isRepeat) {
+        audio.currentTime = 0
+        audio.play()
+      } else {
+        handleNext()
+      }
+    })
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime)
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
-      audio.removeEventListener('ended', handleEnded)
     }
   }, [isRepeat])
+
+  useEffect(() => {
+    if (isPlaying && audioRef.current) {
+      audioRef.current.play().catch(() => setIsPlaying(false))
+    }
+  }, [currentSongIndex])
 
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause()
-        setIsPlaying(false)
       } else {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
+        audioRef.current.play().catch(() => setIsPlaying(false))
       }
+      setIsPlaying(!isPlaying)
     }
   }
 
@@ -125,11 +106,13 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const handleNext = () => {
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
+    setCurrentTime(0)
   }
 
   const handlePrevious = () => {
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
+    setCurrentTime(0)
   }
 
   const formatTime = (time: number) => {
@@ -170,6 +153,8 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
           <audio 
             ref={audioRef}
             src={currentSong.url}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
           />
           
           <button 
@@ -190,6 +175,8 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
         <audio 
           ref={audioRef}
           src={currentSong.url}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
         />
         <div className="h-full flex items-center justify-between">
           <div className="flex items-center gap-4 w-[30%]">
