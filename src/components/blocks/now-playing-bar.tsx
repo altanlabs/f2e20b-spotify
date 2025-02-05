@@ -124,7 +124,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
   const currentSong = SONGS[currentSongIndex]
 
   return (
-    <div className="h-24 bg-zinc-900 border-t border-zinc-800 px-4">
+    <div className="h-20 md:h-24 bg-zinc-900 border-t border-zinc-800 px-2 md:px-4">
       <audio 
         ref={audioRef}
         src={currentSong.url}
@@ -132,25 +132,27 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
         onPause={() => setIsPlaying(false)}
       />
       <div className="h-full flex items-center justify-between">
-        <div className="flex items-center gap-4 w-[30%]">
+        {/* Song Info - Hidden on very small screens */}
+        <div className="hidden sm:flex items-center gap-2 md:gap-4 w-[30%]">
           <img 
             src={currentSong.image}
             alt={currentSong.title}
-            className="w-14 h-14 rounded object-cover"
+            className="w-12 h-12 md:w-14 md:h-14 rounded object-cover"
           />
           <div>
-            <p className="text-sm font-medium">{currentSong.title}</p>
-            <p className="text-xs text-zinc-400">{currentSong.artist}</p>
+            <p className="text-sm font-medium line-clamp-1">{currentSong.title}</p>
+            <p className="text-xs text-zinc-400 line-clamp-1">{currentSong.artist}</p>
           </div>
           <button className="text-zinc-400 hover:text-white transition">
             <Heart size={16} />
           </button>
         </div>
         
-        <div className="flex flex-col items-center gap-2 w-[40%]">
-          <div className="flex items-center gap-6">
+        {/* Player Controls */}
+        <div className="flex flex-col items-center gap-1 md:gap-2 w-full sm:w-[40%]">
+          <div className="flex items-center gap-2 md:gap-6">
             <button 
-              className={`text-zinc-400 hover:text-white transition ${isShuffle ? 'text-[#1ed760]' : ''}`}
+              className={`hidden md:block text-zinc-400 hover:text-white transition ${isShuffle ? 'text-[#1ed760]' : ''}`}
               onClick={() => setIsShuffle(!isShuffle)}
             >
               <Shuffle size={20} />
@@ -166,9 +168,9 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
               className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:scale-105 transition"
             >
               {isPlaying ? (
-                <Pause size={20} className="text-black" />
+                <Pause size={18} className="text-black" />
               ) : (
-                <Play size={20} className="text-black" />
+                <Play size={18} className="text-black" />
               )}
             </button>
             <button 
@@ -178,13 +180,13 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
               <SkipForward size={20} />
             </button>
             <button 
-              className={`text-zinc-400 hover:text-white transition ${isRepeat ? 'text-[#1ed760]' : ''}`}
+              className={`hidden md:block text-zinc-400 hover:text-white transition ${isRepeat ? 'text-[#1ed760]' : ''}`}
               onClick={() => setIsRepeat(!isRepeat)}
             >
               <Repeat size={20} />
             </button>
           </div>
-          <div className="flex items-center gap-2 w-full max-w-md">
+          <div className="flex items-center gap-2 w-full max-w-md px-2">
             <span className="text-xs text-zinc-400">{formatTime(currentTime)}</span>
             <Slider
               value={[currentTime]}
@@ -197,7 +199,8 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
           </div>
         </div>
         
-        <div className="flex items-center gap-2 w-[30%] justify-end">
+        {/* Volume Control - Hidden on mobile */}
+        <div className="hidden md:flex items-center gap-2 w-[30%] justify-end">
           <Volume2 size={20} className="text-zinc-400" />
           <Slider
             value={[volume]}
