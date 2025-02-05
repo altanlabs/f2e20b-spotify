@@ -1,7 +1,8 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
-import { Play } from "lucide-react"
+import { Play, Menu } from "lucide-react"
 import { useState } from "react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 interface Playlist {
   title: string;
@@ -81,12 +82,30 @@ export default function IndexPage() {
   return (
     <div className="h-screen flex flex-col bg-black">
       <div className="flex-1 flex overflow-hidden p-2 gap-2">
-        <aside className="w-64 shrink-0">
+        {/* Desktop Sidebar */}
+        <aside className="w-64 shrink-0 hidden md:block">
           <SpotifySidebar />
         </aside>
-        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
-          <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
-          <div className="grid grid-cols-3 gap-4 mb-8">
+
+        {/* Mobile Header */}
+        <div className="md:hidden w-full flex items-center justify-between p-4 bg-zinc-900 rounded-lg mb-2">
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="text-white hover:text-white/80 transition">
+                <Menu size={24} />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-80 p-0 bg-black">
+              <SpotifySidebar />
+            </SheetContent>
+          </Sheet>
+          <h1 className="text-xl font-bold">Spotify</h1>
+          <div className="w-6" /> {/* Spacer for alignment */}
+        </div>
+
+        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-4 md:p-6 overflow-auto">
+          <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">Good Evening</h1>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6 md:mb-8">
             {FEATURED_PLAYLISTS.map((playlist, i) => (
               <div 
                 key={i} 
@@ -95,36 +114,36 @@ export default function IndexPage() {
                 <img 
                   src={playlist.image} 
                   alt={playlist.title}
-                  className="w-20 h-20 object-cover"
+                  className="w-16 h-16 md:w-20 md:h-20 object-cover"
                 />
-                <span className="font-medium px-4">{playlist.title}</span>
-                <button className="ml-auto mr-4 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                  <Play size={24} className="text-black" fill="black" />
+                <span className="font-medium px-4 text-sm md:text-base">{playlist.title}</span>
+                <button className="ml-auto mr-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+                  <Play size={20} className="text-black" fill="black" />
                 </button>
               </div>
             ))}
           </div>
 
-          <h2 className="text-xl font-bold mb-4">Recently Played</h2>
-          <div className="grid grid-cols-4 gap-6">
+          <h2 className="text-lg md:text-xl font-bold mb-4">Recently Played</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
             {RECENT_ALBUMS.map((album, i) => (
               <div 
                 key={i} 
-                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
+                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-3 md:p-4 transition group cursor-pointer"
                 onClick={() => handleAlbumClick(album.songIndex)}
               >
-                <div className="relative mb-4">
+                <div className="relative mb-3 md:mb-4">
                   <img 
                     src={album.image} 
                     alt={album.title}
                     className="w-full aspect-square object-cover rounded shadow-lg"
                   />
-                  <button className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                    <Play size={24} className="text-black" fill="black" />
+                  <button className="absolute bottom-2 right-2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+                    <Play size={20} className="text-black" fill="black" />
                   </button>
                 </div>
-                <p className="font-semibold truncate">{album.title}</p>
-                <p className="text-sm text-zinc-400 truncate">{album.artist}</p>
+                <p className="font-semibold truncate text-sm md:text-base">{album.title}</p>
+                <p className="text-xs md:text-sm text-zinc-400 truncate">{album.artist}</p>
               </div>
             ))}
           </div>
