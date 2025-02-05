@@ -1,7 +1,13 @@
 import { Home, Search, Library, Plus, Heart } from "lucide-react"
 import { ScrollArea } from "@/components/ui/scroll-area"
 
-const PLAYLISTS = [
+interface Playlist {
+  title: string;
+  type: string;
+  image: string;
+}
+
+const PLAYLISTS: Playlist[] = [
   {
     title: "Daily Mix 1",
     type: "Mix",
@@ -32,44 +38,44 @@ const PLAYLISTS = [
 export function SpotifySidebar() {
   return (
     <div className="flex flex-col gap-2 h-full">
-      <div className="bg-card rounded-lg p-6">
+      <div className="bg-zinc-900 rounded-lg p-6">
         <nav className="space-y-4">
-          <a className="flex items-center gap-4 text-sm font-medium text-primary hover:text-primary/80 transition">
+          <a className="flex items-center gap-4 text-sm font-medium text-white hover:text-white/80 transition">
             <Home size={24} />
             Home
           </a>
-          <a className="flex items-center gap-4 text-sm font-medium text-muted-foreground hover:text-primary transition">
+          <a className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Search size={24} />
             Search
           </a>
         </nav>
       </div>
       
-      <div className="bg-card rounded-lg flex-1 p-6">
+      <div className="bg-zinc-900 rounded-lg flex-1 p-6">
         <div className="flex items-center justify-between mb-4">
-          <button className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition">
+          <button className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Library size={24} />
             Your Library
           </button>
-          <button className="text-muted-foreground hover:text-primary transition">
+          <button className="text-zinc-400 hover:text-white transition">
             <Plus size={20} />
           </button>
         </div>
         
         <ScrollArea className="h-[calc(100%-60px)]">
           <div className="space-y-4">
-            <button className="flex items-center gap-4 w-full text-left text-sm font-medium text-muted-foreground hover:text-primary transition">
-              <div className="w-12 h-12 bg-gradient-to-br from-pink-600 to-purple-600 rounded-lg flex items-center justify-center">
+            <button className="flex items-center gap-4 w-full text-left text-sm font-medium text-zinc-400 hover:text-white transition">
+              <div className="w-12 h-12 bg-gradient-to-br from-[#450af5] to-[#c4efd9] rounded-lg flex items-center justify-center">
                 <Heart size={20} className="text-white" />
               </div>
               <div>
                 <p className="font-semibold">Liked Songs</p>
-                <p className="text-xs text-muted-foreground">Playlist • 234 songs</p>
+                <p className="text-xs text-zinc-400">Playlist • 234 songs</p>
               </div>
             </button>
             
             {PLAYLISTS.map((playlist, i) => (
-              <button key={i} className="flex items-center gap-4 w-full text-left text-sm font-medium text-muted-foreground hover:text-primary transition">
+              <button key={i} className="flex items-center gap-4 w-full text-left text-sm font-medium text-zinc-400 hover:text-white transition">
                 <img 
                   src={playlist.image} 
                   alt={playlist.title}
@@ -77,7 +83,7 @@ export function SpotifySidebar() {
                 />
                 <div>
                   <p className="font-semibold">{playlist.title}</p>
-                  <p className="text-xs text-muted-foreground">{playlist.type} • Spotify</p>
+                  <p className="text-xs text-zinc-400">{playlist.type} • Spotify</p>
                 </div>
               </button>
             ))}
