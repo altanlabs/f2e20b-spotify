@@ -3,7 +3,19 @@ import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play } from "lucide-react"
 import { useState } from "react"
 
-const FEATURED_PLAYLISTS = [
+interface Playlist {
+  title: string;
+  image: string;
+}
+
+interface Album {
+  title: string;
+  artist: string;
+  image: string;
+  songIndex?: number;
+}
+
+const FEATURED_PLAYLISTS: Playlist[] = [
   {
     title: "Hip Hop Mix",
     image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
@@ -30,7 +42,7 @@ const FEATURED_PLAYLISTS = [
   }
 ]
 
-const RECENT_ALBUMS = [
+const RECENT_ALBUMS: Album[] = [
   {
     title: "CALL ME IF YOU GET LOST",
     artist: "Tyler, The Creator",
@@ -60,7 +72,7 @@ const RECENT_ALBUMS = [
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
 
-  const handleAlbumClick = (songIndex: number) => {
+  const handleAlbumClick = (songIndex: number | undefined) => {
     if (songIndex !== undefined) {
       setCurrentSongIndex(songIndex)
     }
