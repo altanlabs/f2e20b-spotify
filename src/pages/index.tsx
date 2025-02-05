@@ -60,6 +60,54 @@ const RECENT_ALBUMS = [
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
 
+  const MainContent = () => (
+    <>
+      <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        {FEATURED_PLAYLISTS.map((playlist, i) => (
+          <div 
+            key={i} 
+            className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md flex items-center overflow-hidden transition group cursor-pointer"
+          >
+            <img 
+              src={playlist.image} 
+              alt={playlist.title}
+              className="w-16 md:w-20 h-16 md:h-20 object-cover"
+            />
+            <span className="font-medium px-4 text-sm md:text-base line-clamp-1">{playlist.title}</span>
+            <button className="ml-auto mr-4 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+              <Play size={20} className="text-black" fill="black" />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="text-xl font-bold mb-4">Recently Played</h2>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        {RECENT_ALBUMS.map((album, i) => (
+          <div 
+            key={i} 
+            className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
+            onClick={() => album.songIndex !== undefined && setCurrentSongIndex(album.songIndex)}
+          >
+            <div className="relative mb-4">
+              <img 
+                src={album.image} 
+                alt={album.title}
+                className="w-full aspect-square object-cover rounded-lg shadow-lg"
+              />
+              <button className="absolute bottom-2 right-2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+                <Play size={20} className="text-black" fill="black" />
+              </button>
+            </div>
+            <p className="font-semibold truncate text-sm md:text-base">{album.title}</p>
+            <p className="text-xs md:text-sm text-zinc-400 truncate">{album.artist}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  )
+
   return (
     <div className="h-screen flex flex-col bg-black">
       {/* Mobile View */}
@@ -71,8 +119,10 @@ export default function IndexPage() {
           <div className="w-7" /> {/* Spacer for alignment */}
         </div>
 
-        {/* Main Content - Empty for splash screen */}
-        <div className="flex-1" />
+        {/* Main Content */}
+        <div className="flex-1 overflow-auto px-4 pb-36">
+          <MainContent />
+        </div>
 
         {/* Player Bar */}
         <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
@@ -84,49 +134,7 @@ export default function IndexPage() {
           <SpotifySidebar />
         </aside>
         <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
-          <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
-          <div className="grid grid-cols-3 gap-4 mb-8">
-            {FEATURED_PLAYLISTS.map((playlist, i) => (
-              <div 
-                key={i} 
-                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md flex items-center overflow-hidden transition group cursor-pointer"
-              >
-                <img 
-                  src={playlist.image} 
-                  alt={playlist.title}
-                  className="w-20 h-20 object-cover"
-                />
-                <span className="font-medium px-4">{playlist.title}</span>
-                <button className="ml-auto mr-4 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                  <Play size={24} className="text-black" fill="black" />
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <h2 className="text-xl font-bold mb-4">Recently Played</h2>
-          <div className="grid grid-cols-4 gap-6">
-            {RECENT_ALBUMS.map((album, i) => (
-              <div 
-                key={i} 
-                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
-                onClick={() => album.songIndex !== undefined && setCurrentSongIndex(album.songIndex)}
-              >
-                <div className="relative mb-4">
-                  <img 
-                    src={album.image} 
-                    alt={album.title}
-                    className="w-full aspect-square object-cover rounded-lg shadow-lg"
-                  />
-                  <button className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
-                    <Play size={24} className="text-black" fill="black" />
-                  </button>
-                </div>
-                <p className="font-semibold truncate">{album.title}</p>
-                <p className="text-sm text-zinc-400 truncate">{album.artist}</p>
-              </div>
-            ))}
-          </div>
+          <MainContent />
         </main>
       </div>
       {/* Desktop Player */}
