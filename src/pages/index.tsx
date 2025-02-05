@@ -44,9 +44,10 @@ const RECENT_ALBUMS = [
     songIndex: 3
   },
   {
-    title: "Renaissance",
-    artist: "Beyoncé",
-    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    title: "Islands",
+    artist: "фрози",
+    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 4
   },
   {
     title: "Un Verano Sin Ti",
