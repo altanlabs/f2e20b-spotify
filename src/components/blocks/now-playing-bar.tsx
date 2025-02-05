@@ -49,7 +49,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
 
-  // Handle time updates and metadata
   useEffect(() => {
     const audio = audioRef.current
     if (!audio) return
@@ -74,15 +73,11 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     }
   }, [isRepeat])
 
-  // When song changes, just update the source and reset time
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.pause()
-      setIsPlaying(false)
-      audioRef.current.currentTime = 0
-      setCurrentTime(0)
+      audioRef.current.volume = volume / 100
     }
-  }, [currentSongIndex])
+  }, [volume])
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -108,17 +103,18 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     const wasPlaying = isPlaying
     if (audioRef.current) {
       audioRef.current.pause()
-      setIsPlaying(false)
     }
-    
+    setIsPlaying(false)
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
     
-    if (wasPlaying && audioRef.current) {
+    if (wasPlaying) {
       setTimeout(() => {
-        audioRef.current?.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
+        if (audioRef.current) {
+          audioRef.current.play()
+            .then(() => setIsPlaying(true))
+            .catch(console.error)
+        }
       }, 100)
     }
   }
@@ -127,17 +123,18 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     const wasPlaying = isPlaying
     if (audioRef.current) {
       audioRef.current.pause()
-      setIsPlaying(false)
     }
-    
+    setIsPlaying(false)
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
     
-    if (wasPlaying && audioRef.current) {
+    if (wasPlaying) {
       setTimeout(() => {
-        audioRef.current?.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
+        if (audioRef.current) {
+          audioRef.current.play()
+            .then(() => setIsPlaying(true))
+            .catch(console.error)
+        }
       }, 100)
     }
   }
@@ -153,17 +150,15 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
 
   return (
     <>
-      {/* Single Audio Element */}
+      {/* ONE Single Audio Element for Everything */}
       <audio 
         ref={audioRef}
         src={currentSong.url}
         preload="metadata"
-        autoPlay={false}
       />
 
       {/* Mobile Player */}
       <div className="md:hidden fixed bottom-0 left-0 right-0">
-        {/* Progress Bar */}
         <div className="h-1 bg-[#535353]">
           <div 
             className="h-full bg-[#1ed760]" 
@@ -171,7 +166,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
           />
         </div>
 
-        {/* Player */}
         <div className="bg-[#282828] px-3 py-2 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img 
