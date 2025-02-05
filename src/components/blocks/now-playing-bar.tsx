@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react"
 interface NowPlayingBarProps {
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
-  autoplay?: boolean;
+  autoplay: boolean;
 }
 
 const SONGS = [
@@ -41,7 +41,7 @@ const SONGS = [
   }
 ]
 
-export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay = false }: NowPlayingBarProps) {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay }: NowPlayingBarProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -49,6 +49,20 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const [volume, setVolume] = useState(80)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
+
+  // Handle autoplay when song changes
+  useEffect(() => {
+    if (audioRef.current) {
+      if (autoplay) {
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch((error) => {
+            console.error('Autoplay failed:', error)
+            setIsPlaying(false)
+          })
+      }
+    }
+  }, [currentSongIndex, autoplay])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -61,46 +75,26 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
     if (!audio) return
 
     const updateTime = () => setCurrentTime(audio.currentTime)
-    const handleLoadedMetadata = () => {
-      setDuration(audio.duration)
-      // Start playing once metadata is loaded
-      if (autoplay) {
-        audio.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
-      }
-    }
-
-    audio.addEventListener('timeupdate', updateTime)
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
-    audio.addEventListener('ended', () => {
+    const handleLoadedMetadata = () => setDuration(audio.duration)
+    const handleEnded = () => {
       if (isRepeat) {
         audio.currentTime = 0
         audio.play()
       } else {
         handleNext()
       }
-    })
+    }
+
+    audio.addEventListener('timeupdate', updateTime)
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
+    audio.addEventListener('ended', handleEnded)
 
     return () => {
       audio.removeEventListener('timeupdate', updateTime)
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
-      audio.removeEventListener('ended', () => {})
+      audio.removeEventListener('ended', handleEnded)
     }
-  }, [isRepeat, autoplay])
-
-  // Reset audio when song changes
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0
-      setCurrentTime(0)
-      if (autoplay) {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
-      }
-    }
-  }, [currentSongIndex, autoplay])
+  }, [isRepeat])
 
   const togglePlay = () => {
     if (audioRef.current) {
@@ -110,7 +104,10 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
       } else {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch(console.error)
+          .catch((error) => {
+            console.error('Play failed:', error)
+            setIsPlaying(false)
+          })
       }
     }
   }
