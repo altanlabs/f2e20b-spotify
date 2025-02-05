@@ -5,27 +5,27 @@ const PLAYLISTS = [
   {
     title: "Daily Mix 1",
     type: "Mix",
-    image: "https://i.scdn.co/image/ab67616d00001e02c5716278abba6a103ad13aa7"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Discover Weekly",
     type: "Playlist",
-    image: "https://i.scdn.co/image/ab67706f00000002fe0099a8dcd3054706ffc92f"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Release Radar",
     type: "Playlist",
-    image: "https://i.scdn.co/image/ab67706f000000025ba1f6358427486bc90acf58"
+    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Hip Hop Controller",
     type: "Playlist",
-    image: "https://i.scdn.co/image/ab67706c0000da84f2a067e03b55c8bd84f1b8a1"
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "RapCaviar",
     type: "Playlist",
-    image: "https://i.scdn.co/image/ab67706c0000da84ae39b4e29fa5f5c2476e8fef"
+    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
