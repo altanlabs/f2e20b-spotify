@@ -1,7 +1,7 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play, Menu } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const FEATURED_PLAYLISTS = [
   {
@@ -59,11 +59,16 @@ const RECENT_ALBUMS = [
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [autoplay, setAutoplay] = useState(false)
+  const [shouldPlay, setShouldPlay] = useState(false)
+
+  // Reset shouldPlay when song changes
+  useEffect(() => {
+    setShouldPlay(true)
+  }, [currentSongIndex])
 
   const handleSongSelect = (songIndex: number) => {
     setCurrentSongIndex(songIndex)
-    setAutoplay(true)
+    setShouldPlay(true)
   }
 
   const MainContent = () => (
@@ -134,7 +139,7 @@ export default function IndexPage() {
         <NowPlayingBar 
           currentSongIndex={currentSongIndex} 
           setCurrentSongIndex={setCurrentSongIndex}
-          autoplay={autoplay}
+          autoplay={shouldPlay}
         />
       </div>
 
@@ -152,7 +157,7 @@ export default function IndexPage() {
         <NowPlayingBar 
           currentSongIndex={currentSongIndex} 
           setCurrentSongIndex={setCurrentSongIndex}
-          autoplay={autoplay}
+          autoplay={shouldPlay}
         />
       </div>
     </div>
