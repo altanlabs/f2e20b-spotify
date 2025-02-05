@@ -7,7 +7,7 @@ export function NowPlayingBar() {
       <div className="h-full flex items-center justify-between">
         <div className="flex items-center gap-4 w-[30%]">
           <img 
-            src="https://i.scdn.co/image/ab67616d00001e02fd997b0cba8c89d34375ebe5" 
+            src="https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c" 
             alt="CALL ME IF YOU GET LOST" 
             className="w-14 h-14 rounded object-cover"
           />
