@@ -61,7 +61,15 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
     if (!audio) return
 
     const updateTime = () => setCurrentTime(audio.currentTime)
-    const handleLoadedMetadata = () => setDuration(audio.duration)
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration)
+      // Start playing once metadata is loaded
+      if (autoplay) {
+        audio.play()
+          .then(() => setIsPlaying(true))
+          .catch(console.error)
+      }
+    }
 
     audio.addEventListener('timeupdate', updateTime)
     audio.addEventListener('loadedmetadata', handleLoadedMetadata)
@@ -77,19 +85,19 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
     return () => {
       audio.removeEventListener('timeupdate', updateTime)
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
+      audio.removeEventListener('ended', () => {})
     }
-  }, [isRepeat])
+  }, [isRepeat, autoplay])
 
-  // Effect to handle autoplay when song changes
+  // Reset audio when song changes
   useEffect(() => {
     if (audioRef.current) {
+      audioRef.current.currentTime = 0
+      setCurrentTime(0)
       if (autoplay) {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch(() => setIsPlaying(false))
-      } else {
-        audioRef.current.pause()
-        setIsPlaying(false)
+          .catch(console.error)
       }
     }
   }, [currentSongIndex, autoplay])
@@ -98,10 +106,12 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause()
+        setIsPlaying(false)
       } else {
-        audioRef.current.play().catch(() => setIsPlaying(false))
+        audioRef.current.play()
+          .then(() => setIsPlaying(true))
+          .catch(console.error)
       }
-      setIsPlaying(!isPlaying)
     }
   }
 
@@ -158,6 +168,13 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
               <p className="text-xs text-[#b3b3b3]">{currentSong.artist}</p>
             </div>
           </div>
+          
+          <audio 
+            ref={audioRef}
+            src={currentSong.url}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
           
           <button 
             onClick={togglePlay}
