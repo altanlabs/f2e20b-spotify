@@ -1,7 +1,7 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play, Menu } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 const FEATURED_PLAYLISTS = [
   {
@@ -59,16 +59,16 @@ const RECENT_ALBUMS = [
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [shouldPlay, setShouldPlay] = useState(false)
-
-  // Reset shouldPlay when song changes
-  useEffect(() => {
-    setShouldPlay(true)
-  }, [currentSongIndex])
+  const [autoplay, setAutoplay] = useState(false)
 
   const handleSongSelect = (songIndex: number) => {
+    setAutoplay(true)  // Set autoplay true only when clicking a song
     setCurrentSongIndex(songIndex)
-    setShouldPlay(true)
+  }
+
+  const handleSongChange = (newIndex: number) => {
+    setAutoplay(false)  // Don't autoplay when using controls
+    setCurrentSongIndex(newIndex)
   }
 
   const MainContent = () => (
@@ -138,8 +138,8 @@ export default function IndexPage() {
         {/* Player Bar */}
         <NowPlayingBar 
           currentSongIndex={currentSongIndex} 
-          setCurrentSongIndex={setCurrentSongIndex}
-          autoplay={shouldPlay}
+          setCurrentSongIndex={handleSongChange}
+          autoplay={autoplay}
         />
       </div>
 
@@ -156,8 +156,8 @@ export default function IndexPage() {
       <div className="hidden md:block">
         <NowPlayingBar 
           currentSongIndex={currentSongIndex} 
-          setCurrentSongIndex={setCurrentSongIndex}
-          autoplay={shouldPlay}
+          setCurrentSongIndex={handleSongChange}
+          autoplay={autoplay}
         />
       </div>
     </div>
