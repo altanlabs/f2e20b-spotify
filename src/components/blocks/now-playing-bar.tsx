@@ -79,12 +79,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     }
   }, [isRepeat])
 
-  useEffect(() => {
-    if (isPlaying && audioRef.current) {
-      audioRef.current.play().catch(() => setIsPlaying(false))
-    }
-  }, [currentSongIndex])
-
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -104,15 +98,27 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
   }
 
   const handleNext = () => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause()
+    }
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
     setCurrentTime(0)
+    if (audioRef.current && isPlaying) {
+      audioRef.current.play().catch(() => setIsPlaying(false))
+    }
   }
 
   const handlePrevious = () => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause()
+    }
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
     setCurrentTime(0)
+    if (audioRef.current && isPlaying) {
+      audioRef.current.play().catch(() => setIsPlaying(false))
+    }
   }
 
   const formatTime = (time: number) => {
