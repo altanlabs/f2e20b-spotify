@@ -5,27 +5,27 @@ import { Play } from "lucide-react"
 const FEATURED_PLAYLISTS = [
   {
     title: "Hip Hop Mix",
-    image: "https://i.scdn.co/image/ab67706f00000002e0b11c208c7b59dacf9d5aab"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Rap Caviar",
-    image: "https://i.scdn.co/image/ab67706c0000da84ae39b4e29fa5f5c2476e8fef"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Today's Top Hits",
-    image: "https://i.scdn.co/image/ab67706f000000027ea4d505212b9de1f72c5112"
+    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "All Out 2010s",
-    image: "https://i.scdn.co/image/ab67706f00000002f95e0d3dd06dfc0a164af156"
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Rock Classics",
-    image: "https://i.scdn.co/image/ab67706f000000025cdbe07d5c40327970f2967c"
+    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Chill Hits",
-    image: "https://i.scdn.co/image/ab67706f00000002d771dc645afe9b87978f832e"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
