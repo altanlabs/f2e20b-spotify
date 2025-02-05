@@ -50,16 +50,19 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
 
-  // Handle autoplay when song changes
+  // Stop any playing audio when song changes
   useEffect(() => {
     if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+      setCurrentTime(0)
+      setIsPlaying(false)
+      
+      // Only play if autoplay is true (clicked from playlist)
       if (autoplay) {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch((error) => {
-            console.error('Autoplay failed:', error)
-            setIsPlaying(false)
-          })
+          .catch(console.error)
       }
     }
   }, [currentSongIndex, autoplay])
@@ -81,7 +84,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
         audio.currentTime = 0
         audio.play()
       } else {
-        handleNext()
+        setIsPlaying(false)
       }
     }
 
@@ -104,10 +107,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
       } else {
         audioRef.current.play()
           .then(() => setIsPlaying(true))
-          .catch((error) => {
-            console.error('Play failed:', error)
-            setIsPlaying(false)
-          })
+          .catch(console.error)
       }
     }
   }
@@ -122,13 +122,11 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, autoplay 
   const handleNext = () => {
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
-    setCurrentTime(0)
   }
 
   const handlePrevious = () => {
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
-    setCurrentTime(0)
   }
 
   const formatTime = (time: number) => {
