@@ -67,18 +67,18 @@ export default function IndexPage() {
   }
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className="flex-1 flex overflow-hidden">
-        <aside className="w-64 p-2">
+    <div className="h-screen flex flex-col bg-black">
+      <div className="flex-1 flex overflow-hidden p-2 gap-2">
+        <aside className="w-64 shrink-0">
           <SpotifySidebar />
         </aside>
-        <main className="flex-1 bg-gradient-to-b from-neutral-800 to-background p-6 overflow-auto">
+        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
           <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
           <div className="grid grid-cols-3 gap-4 mb-8">
             {FEATURED_PLAYLISTS.map((playlist, i) => (
               <div 
                 key={i} 
-                className="bg-card/30 rounded-lg flex items-center overflow-hidden hover:bg-card/50 transition group cursor-pointer"
+                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md flex items-center overflow-hidden transition group cursor-pointer"
               >
                 <img 
                   src={playlist.image} 
@@ -86,8 +86,8 @@ export default function IndexPage() {
                   className="w-20 h-20 object-cover"
                 />
                 <span className="font-medium px-4">{playlist.title}</span>
-                <button className="ml-auto mr-4 w-12 h-12 rounded-full bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl">
-                  <Play size={24} fill="black" />
+                <button className="ml-auto mr-4 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+                  <Play size={24} className="text-black" fill="black" />
                 </button>
               </div>
             ))}
@@ -98,21 +98,21 @@ export default function IndexPage() {
             {RECENT_ALBUMS.map((album, i) => (
               <div 
                 key={i} 
-                className="bg-card rounded-lg p-4 hover:bg-card/80 transition group cursor-pointer"
+                className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
                 onClick={() => handleAlbumClick(album.songIndex)}
               >
                 <div className="relative mb-4">
                   <img 
                     src={album.image} 
                     alt={album.title}
-                    className="w-full aspect-square object-cover rounded-lg shadow-lg"
+                    className="w-full aspect-square object-cover rounded shadow-lg"
                   />
-                  <button className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl">
-                    <Play size={24} fill="black" />
+                  <button className="absolute bottom-2 right-2 w-12 h-12 rounded-full bg-[#1ed760] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 shadow-xl hover:scale-105">
+                    <Play size={24} className="text-black" fill="black" />
                   </button>
                 </div>
                 <p className="font-semibold truncate">{album.title}</p>
-                <p className="text-sm text-muted-foreground truncate">{album.artist}</p>
+                <p className="text-sm text-zinc-400 truncate">{album.artist}</p>
               </div>
             ))}
           </div>
