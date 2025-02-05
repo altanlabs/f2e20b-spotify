@@ -2,6 +2,11 @@ import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Volume2, Heart } f
 import { Slider } from "@/components/ui/slider"
 import { useEffect, useRef, useState } from "react"
 
+interface NowPlayingBarProps {
+  currentSongIndex: number;
+  setCurrentSongIndex: (index: number) => void;
+}
+
 const SONGS = [
   {
     title: "LIKE HIM",
@@ -35,7 +40,7 @@ const SONGS = [
   }
 ]
 
-export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlayingBarProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -76,7 +81,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
 
   useEffect(() => {
     if (isPlaying && audioRef.current) {
-      audioRef.current.play()
+      audioRef.current.play().catch(() => setIsPlaying(false))
     }
   }, [currentSongIndex])
 
@@ -85,7 +90,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
       if (isPlaying) {
         audioRef.current.pause()
       } else {
-        audioRef.current.play()
+        audioRef.current.play().catch(() => setIsPlaying(false))
       }
       setIsPlaying(!isPlaying)
     }
@@ -119,7 +124,7 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
   const currentSong = SONGS[currentSongIndex]
 
   return (
-    <div className="h-24 bg-card border-t px-4">
+    <div className="h-24 bg-zinc-900 border-t border-zinc-800 px-4">
       <audio 
         ref={audioRef}
         src={currentSong.url}
@@ -135,9 +140,9 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
           />
           <div>
             <p className="text-sm font-medium">{currentSong.title}</p>
-            <p className="text-xs text-muted-foreground">{currentSong.artist}</p>
+            <p className="text-xs text-zinc-400">{currentSong.artist}</p>
           </div>
-          <button className="text-muted-foreground hover:text-primary transition">
+          <button className="text-zinc-400 hover:text-white transition">
             <Heart size={16} />
           </button>
         </div>
@@ -145,55 +150,55 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }) {
         <div className="flex flex-col items-center gap-2 w-[40%]">
           <div className="flex items-center gap-6">
             <button 
-              className={`text-muted-foreground hover:text-primary transition ${isShuffle ? 'text-primary' : ''}`}
+              className={`text-zinc-400 hover:text-white transition ${isShuffle ? 'text-[#1ed760]' : ''}`}
               onClick={() => setIsShuffle(!isShuffle)}
             >
               <Shuffle size={20} />
             </button>
             <button 
-              className="text-muted-foreground hover:text-primary transition"
+              className="text-zinc-400 hover:text-white transition"
               onClick={handlePrevious}
             >
               <SkipBack size={20} />
             </button>
             <button 
               onClick={togglePlay}
-              className="w-8 h-8 rounded-full bg-primary flex items-center justify-center hover:scale-105 transition"
+              className="w-8 h-8 rounded-full bg-white flex items-center justify-center hover:scale-105 transition"
             >
               {isPlaying ? (
-                <Pause size={20} fill="black" />
+                <Pause size={20} className="text-black" />
               ) : (
-                <Play size={20} fill="black" />
+                <Play size={20} className="text-black" />
               )}
             </button>
             <button 
-              className="text-muted-foreground hover:text-primary transition"
+              className="text-zinc-400 hover:text-white transition"
               onClick={handleNext}
             >
               <SkipForward size={20} />
             </button>
             <button 
-              className={`text-muted-foreground hover:text-primary transition ${isRepeat ? 'text-primary' : ''}`}
+              className={`text-zinc-400 hover:text-white transition ${isRepeat ? 'text-[#1ed760]' : ''}`}
               onClick={() => setIsRepeat(!isRepeat)}
             >
               <Repeat size={20} />
             </button>
           </div>
           <div className="flex items-center gap-2 w-full max-w-md">
-            <span className="text-xs text-muted-foreground">{formatTime(currentTime)}</span>
+            <span className="text-xs text-zinc-400">{formatTime(currentTime)}</span>
             <Slider
               value={[currentTime]}
-              max={duration}
+              max={duration || 100}
               step={1}
               className="w-full"
               onValueChange={handleTimeChange}
             />
-            <span className="text-xs text-muted-foreground">{formatTime(duration)}</span>
+            <span className="text-xs text-zinc-400">{formatTime(duration)}</span>
           </div>
         </div>
         
         <div className="flex items-center gap-2 w-[30%] justify-end">
-          <Volume2 size={20} className="text-muted-foreground" />
+          <Volume2 size={20} className="text-zinc-400" />
           <Slider
             value={[volume]}
             max={100}
