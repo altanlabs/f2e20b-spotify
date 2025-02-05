@@ -5,17 +5,27 @@ const PLAYLISTS = [
   {
     title: "Daily Mix 1",
     type: "Mix",
-    image: "https://dailymix-images.scdn.co/v2/img/ab6761610000e5eb180a06a4a587e3e0f6ef1a45/1/en/default"
+    image: "https://i.scdn.co/image/ab67616d00001e02c5716278abba6a103ad13aa7"
   },
   {
     title: "Discover Weekly",
     type: "Playlist",
-    image: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v2/discover-weekly/aAbca4VNfzWuUCQ_FGiEFA==/bmVuZW5lbmVuZW5lbmVuZQ=="
+    image: "https://i.scdn.co/image/ab67706f00000002fe0099a8dcd3054706ffc92f"
   },
   {
     title: "Release Radar",
     type: "Playlist",
-    image: "https://newjams-images.scdn.co/image/ab676477000033ad/dt/v2/release-radar/ab6761610000e5ebf2855a202c6abd1c38265dcc/en"
+    image: "https://i.scdn.co/image/ab67706f000000025ba1f6358427486bc90acf58"
+  },
+  {
+    title: "Hip Hop Controller",
+    type: "Playlist",
+    image: "https://i.scdn.co/image/ab67706c0000da84f2a067e03b55c8bd84f1b8a1"
+  },
+  {
+    title: "RapCaviar",
+    type: "Playlist",
+    image: "https://i.scdn.co/image/ab67706c0000da84ae39b4e29fa5f5c2476e8fef"
   }
 ]
 
