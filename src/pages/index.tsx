@@ -1,6 +1,7 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play } from "lucide-react"
+import { useState } from "react"
 
 const FEATURED_PLAYLISTS = [
   {
@@ -53,6 +54,13 @@ const RECENT_ALBUMS = [
 ]
 
 export default function IndexPage() {
+  const [currentSongIndex, setCurrentSongIndex] = useState(0)
+
+  const handleBadBunnyClick = () => {
+    // Set to Bad Bunny song (index 1)
+    setCurrentSongIndex(1)
+  }
+
   return (
     <div className="h-screen flex flex-col">
       <div className="flex-1 flex overflow-hidden">
@@ -83,7 +91,15 @@ export default function IndexPage() {
           <h2 className="text-xl font-bold mb-4">Recently Played</h2>
           <div className="grid grid-cols-4 gap-6">
             {RECENT_ALBUMS.map((album, i) => (
-              <div key={i} className="bg-card rounded-lg p-4 hover:bg-card/80 transition group cursor-pointer">
+              <div 
+                key={i} 
+                className="bg-card rounded-lg p-4 hover:bg-card/80 transition group cursor-pointer"
+                onClick={() => {
+                  if (album.title === "Un Verano Sin Ti") {
+                    handleBadBunnyClick()
+                  }
+                }}
+              >
                 <div className="relative mb-4">
                   <img 
                     src={album.image} 
@@ -101,7 +117,7 @@ export default function IndexPage() {
           </div>
         </main>
       </div>
-      <NowPlayingBar />
+      <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
     </div>
   )
 }
