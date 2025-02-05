@@ -109,9 +109,9 @@ export default function IndexPage() {
   )
 
   return (
-    <div className="h-screen flex flex-col bg-black">
+    <div className="min-h-screen flex flex-col bg-black">
       {/* Mobile View */}
-      <div className="md:hidden flex-1 flex flex-col">
+      <div className="md:hidden">
         {/* Top Header */}
         <div className="p-6 flex items-center justify-between">
           <Menu size={28} className="text-white" />
@@ -120,7 +120,7 @@ export default function IndexPage() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 overflow-auto px-4 pb-36">
+        <div className="px-4 pb-36">
           <MainContent />
         </div>
 
