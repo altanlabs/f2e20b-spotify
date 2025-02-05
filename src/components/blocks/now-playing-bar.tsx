@@ -132,6 +132,14 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
 
   return (
     <>
+      {/* Single Audio Element */}
+      <audio 
+        ref={audioRef}
+        src={currentSong.url}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+      />
+
       {/* Mobile Player */}
       <div className="md:hidden fixed bottom-0 left-0 right-0">
         {/* Progress Bar */}
@@ -156,13 +164,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
             </div>
           </div>
           
-          <audio 
-            ref={audioRef}
-            src={currentSong.url}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-          />
-          
           <button 
             onClick={togglePlay}
             className="w-8 h-8 rounded-full bg-white flex items-center justify-center"
@@ -178,12 +179,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
 
       {/* Desktop Player */}
       <div className="hidden md:block h-24 bg-zinc-900 border-t border-zinc-800 px-4">
-        <audio 
-          ref={audioRef}
-          src={currentSong.url}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-        />
         <div className="h-full flex items-center justify-between">
           <div className="flex items-center gap-4 w-[30%]">
             <img 
