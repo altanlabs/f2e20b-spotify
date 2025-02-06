@@ -115,12 +115,14 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, shouldPla
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
     setCurrentTime(0)
+    setShouldPlay(true)  // This will trigger autoplay for the next song
   }
 
   const handlePrevious = () => {
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
     setCurrentTime(0)
+    setShouldPlay(true)  // This will trigger autoplay for the previous song
   }
 
   const formatTime = (time: number) => {
