@@ -11,32 +11,27 @@ const SONGS = [
   {
     title: "LIKE HIM",
     artist: "Tyler, The Creator",
-    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/06fa91af-bc9e-4b01-9471-a8e0606ebc5e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Me Porto Bonito",
     artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/d2f6b6cc-99bf-48ca-9d86-b890f654f6e5?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "SWEET / I THOUGHT YOU WANTED TO DANCE",
     artist: "Tyler, The Creator",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/91e4e836-737e-443e-af7b-d17e0da5c1a2?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "N95",
     artist: "Kendrick Lamar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/cf0646e0-bf34-4a29-850c-eaedf89dca12?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Islands",
     artist: "фрози",
-    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/04598345-e5ba-452f-9c3f-a705f28f6ca8?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
@@ -122,7 +117,6 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
     <div className="h-24 bg-zinc-900 border-t border-zinc-800 px-4">
       <audio 
         ref={audioRef}
-        src={currentSong.url}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
       />
