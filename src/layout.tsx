@@ -174,7 +174,7 @@ export default function Layout({
                 <Toggle
                   pressed={theme === "dark"}
                   onPressedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  className={`px-2 py-2 rounded-md flex items-center gap-2 transition-colors
+                  className={`px-3 py-2 rounded-md flex items-center gap-2 transition-colors hover:bg-accent
                     ${
                       theme === "dark"
                         ? "bg-accent text-accent-foreground"
