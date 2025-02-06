@@ -46,12 +46,12 @@ const RECENT_ALBUMS = [
   },
   {
     title: "Islands",
-    artist: "Frozi",
+    artist: "фрози",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 4
   },
   {
-    title: "A Summer Without You",
+    title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 1
