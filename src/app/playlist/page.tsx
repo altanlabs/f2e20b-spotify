@@ -89,7 +89,7 @@ export default function PlaylistPage() {
           {/* Playlist Header */}
           <div className="flex items-end gap-6 bg-gradient-to-b from-zinc-700/50 to-zinc-900/50 p-6">
             <img 
-              src="/dog-headphones.jpg"
+              src="https://api.altan.ai/platform/media/91a43c68-06d5-4b61-8713-1384ff4e509b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
               alt="Playlist cover"
               className="w-52 h-52 shadow-lg"
             />
