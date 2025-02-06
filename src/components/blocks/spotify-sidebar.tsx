@@ -1,7 +1,6 @@
 "use client"
 
 import { Home, Search, Library, Plus, ArrowRight } from "lucide-react"
-import Link from "next/link"
 
 const PLAYLISTS = [
   {
@@ -23,20 +22,20 @@ export function SpotifySidebar() {
     <div className="flex flex-col gap-2 h-full">
       <div className="bg-zinc-900 rounded-lg p-4">
         <div className="flex flex-col gap-4">
-          <Link 
+          <a 
             href="/"
             className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Home size={24} />
             Inicio
-          </Link>
-          <Link 
+          </a>
+          <a 
             href="/search"
             className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Search size={24} />
             Buscar
-          </Link>
+          </a>
         </div>
       </div>
 
@@ -56,7 +55,7 @@ export function SpotifySidebar() {
 
         <div className="mt-4 space-y-2">
           {PLAYLISTS.map((playlist, i) => (
-            <Link
+            <a
               key={i}
               href="/playlist"
               className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
@@ -70,7 +69,7 @@ export function SpotifySidebar() {
                 <p className="text-sm font-medium">{playlist.name}</p>
                 <p className="text-xs text-zinc-400">Lista • Dapao</p>
               </div>
-            </Link>
+            </a>
           ))}
         </div>
       </div>
