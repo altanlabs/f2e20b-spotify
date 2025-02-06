@@ -7,27 +7,27 @@ import { ThemeToggle } from "@/components/blocks/theme-toggle"
 const FEATURED_PLAYLISTS = [
   {
     title: "Hip Hop Mix",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/9a845218-c2c0-4e61-9eb1-69182ea79ac4?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   },
   {
     title: "Rap Caviar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/6b89961b-d220-4f8e-9d83-bc01c72c0b7a?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   },
   {
     title: "Today's Top Hits",
-    image: "https://api.altan.ai/platform/media/e2ecc41a-b516-4b9a-852e-92749c9a0ed9?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/ba0412ad-2c05-4015-b683-00344232f641?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   },
   {
     title: "All Out 2010s",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/64d29f69-66f2-4eb6-83aa-3068b8adf34a?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   },
   {
     title: "Rock Classics",
-    image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/3f70543d-dead-4e26-a5b1-65c036d40217?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   },
   {
     title: "Chill Hits",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+    image: "https://api.altan.ai/platform/media/9a845218-c2c0-4e61-9eb1-69182ea79ac4?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   }
 ]
 
@@ -35,13 +35,13 @@ const RECENT_ALBUMS = [
   {
     title: "CALL ME IF YOU GET LOST",
     artist: "Tyler, The Creator",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    image: "https://api.altan.ai/platform/media/9a845218-c2c0-4e61-9eb1-69182ea79ac4?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7",
     songIndex: 2
   },
   {
     title: "Mr. Morale & the Big Steppers",
     artist: "Kendrick Lamar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    image: "https://api.altan.ai/platform/media/6b89961b-d220-4f8e-9d83-bc01c72c0b7a?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7",
     songIndex: 3
   },
   {
@@ -53,7 +53,7 @@ const RECENT_ALBUMS = [
   {
     title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    image: "https://api.altan.ai/platform/media/64d29f69-66f2-4eb6-83aa-3068b8adf34a?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7",
     songIndex: 1
   },
 ]
