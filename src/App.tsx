@@ -17,7 +17,7 @@ const App = () => {
     {
       path: "/",
       element: (
-        <Layout showSidebar={false} showHeader={true} showFooter={false} />
+        <Layout showSidebar={false} showHeader={false} showFooter={false} />
       ),
       errorElement: <RootBoundary />,
       children: [
