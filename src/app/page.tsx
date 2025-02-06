@@ -34,6 +34,30 @@ const FEATURED_PLAYLISTS = [
 
 const RECENT_ALBUMS = [
   {
+    title: "CALL ME IF YOU GET LOST",
+    artist: "Tyler, The Creator",
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 2
+  },
+  {
+    title: "Mr. Morale & the Big Steppers",
+    artist: "Kendrick Lamar",
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 3
+  },
+  {
+    title: "Islands",
+    artist: "фрози",
+    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 4
+  },
+  {
+    title: "Un Verano Sin Ti",
+    artist: "Bad Bunny",
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 1
+  },
+  {
     title: "GBP (feat. 21 Savage)",
     artist: "Central Cee",
     image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
