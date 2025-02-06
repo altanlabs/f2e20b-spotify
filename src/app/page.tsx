@@ -52,7 +52,7 @@ const RECENT_ALBUMS = [
     songIndex: 4
   },
   {
-    title: "Un Verano Sin Ti",
+    title: "A Summer Without You",
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 1
