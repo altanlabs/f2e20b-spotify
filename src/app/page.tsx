@@ -34,29 +34,29 @@ const FEATURED_PLAYLISTS = [
 
 const RECENT_ALBUMS = [
   {
-    title: "CALL ME IF YOU GET LOST",
-    artist: "Tyler, The Creator",
-    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 2
+    title: "GBP (feat. 21 Savage)",
+    artist: "Central Cee",
+    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 5
   },
   {
-    title: "Mr. Morale & the Big Steppers",
-    artist: "Kendrick Lamar",
-    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 3
+    title: "1973",
+    artist: "James Blunt",
+    image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 6
   },
   {
-    title: "Islands",
-    artist: "фрози",
-    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 4
-  },
-  {
-    title: "Un Verano Sin Ti",
+    title: "DTMF",
     artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 1
+    image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 7
   },
+  {
+    title: "i like the way you kiss me",
+    artist: "Artemas",
+    image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    songIndex: 8
+  }
 ]
 
 export default function IndexPage() {
