@@ -59,6 +59,12 @@ const RECENT_ALBUMS = [
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
+  const [shouldPlay, setShouldPlay] = useState(false)
+
+  const handleSongSelect = (songIndex: number) => {
+    setCurrentSongIndex(songIndex)
+    setShouldPlay(true)
+  }
 
   const MainContent = () => (
     <>
@@ -88,7 +94,7 @@ export default function IndexPage() {
           <div 
             key={i} 
             className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
-            onClick={() => album.songIndex !== undefined && setCurrentSongIndex(album.songIndex)}
+            onClick={() => album.songIndex !== undefined && handleSongSelect(album.songIndex)}
           >
             <div className="relative mb-4">
               <img 
@@ -110,25 +116,6 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-black">
-      {/* Mobile View */}
-      <div className="md:hidden">
-        {/* Top Header */}
-        <div className="p-6 flex items-center justify-between">
-          <Menu size={28} className="text-white" />
-          <span className="text-2xl font-bold">Spotify</span>
-          <div className="w-7" /> {/* Spacer for alignment */}
-        </div>
-
-        {/* Main Content */}
-        <div className="px-4 pb-36">
-          <MainContent />
-        </div>
-
-        {/* Player Bar */}
-        <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
-      </div>
-
-      {/* Desktop View */}
       <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
         <aside className="w-64 shrink-0">
           <SpotifySidebar />
@@ -137,10 +124,12 @@ export default function IndexPage() {
           <MainContent />
         </main>
       </div>
-      {/* Desktop Player */}
-      <div className="hidden md:block">
-        <NowPlayingBar currentSongIndex={currentSongIndex} setCurrentSongIndex={setCurrentSongIndex} />
-      </div>
+      <NowPlayingBar 
+        currentSongIndex={currentSongIndex} 
+        setCurrentSongIndex={setCurrentSongIndex}
+        shouldPlay={shouldPlay}
+        setShouldPlay={setShouldPlay}
+      />
     </div>
   )
 }
