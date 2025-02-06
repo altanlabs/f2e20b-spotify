@@ -57,7 +57,7 @@ export function SpotifySidebar() {
           {PLAYLISTS.map((playlist, i) => (
             <a
               key={i}
-              href="/playlist"
+              href="/playlist/paaau"
               className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
             >
               <img 
