@@ -1,5 +1,4 @@
 import { Home, Search, Library, Plus, ArrowRight } from "lucide-react"
-import { usePathname } from "next/navigation"
 import Link from "next/link"
 
 const PLAYLISTS = [
@@ -18,22 +17,20 @@ const PLAYLISTS = [
 ]
 
 export function SpotifySidebar() {
-  const pathname = usePathname()
-
   return (
     <div className="flex flex-col gap-2 h-full">
       <div className="bg-zinc-900 rounded-lg p-4">
         <div className="flex flex-col gap-4">
           <Link 
             href="/"
-            className={`flex items-center gap-4 text-sm font-medium ${pathname === "/" ? "text-white" : "text-zinc-400"} hover:text-white transition`}
+            className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Home size={24} />
             Inicio
           </Link>
           <Link 
             href="/search"
-            className={`flex items-center gap-4 text-sm font-medium ${pathname === "/search" ? "text-white" : "text-zinc-400"} hover:text-white transition`}
+            className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Search size={24} />
             Buscar
