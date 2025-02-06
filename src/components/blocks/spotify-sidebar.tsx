@@ -5,7 +5,7 @@ import { Home, Search, Library, Plus, ArrowRight } from "lucide-react"
 const PLAYLISTS = [
   {
     name: "Paaau",
-    image: "/dog-headphones.jpg"
+    image: "https://api.altan.ai/platform/media/91a43c68-06d5-4b61-8713-1384ff4e509b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     name: "Rap Mix",
