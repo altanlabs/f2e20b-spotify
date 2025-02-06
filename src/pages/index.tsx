@@ -2,6 +2,7 @@ import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play, Menu } from "lucide-react"
 import { useState } from "react"
+import { ThemeToggle } from "@/components/blocks/theme-toggle"
 
 const FEATURED_PLAYLISTS = [
   {
