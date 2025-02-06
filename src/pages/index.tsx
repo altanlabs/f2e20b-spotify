@@ -46,7 +46,7 @@ const RECENT_ALBUMS = [
   },
   {
     title: "Islands",
-    artist: "фрози",
+    artist: "Frozi",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 4
   },
