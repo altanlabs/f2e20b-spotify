@@ -1,6 +1,6 @@
 import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Volume2, Heart } from "lucide-react"
 import { Slider } from "@/components/ui/slider"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 
 interface NowPlayingBarProps {
   currentSongIndex: number;
@@ -12,157 +12,59 @@ const SONGS = [
     title: "LIKE HIM",
     artist: "Tyler, The Creator",
     image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/06fa91af-bc9e-4b01-9471-a8e0606ebc5e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Me Porto Bonito",
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/d2f6b6cc-99bf-48ca-9d86-b890f654f6e5?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "SWEET / I THOUGHT YOU WANTED TO DANCE",
     artist: "Tyler, The Creator",
     image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/91e4e836-737e-443e-af7b-d17e0da5c1a2?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "N95",
     artist: "Kendrick Lamar",
     image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/cf0646e0-bf34-4a29-850c-eaedf89dca12?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     title: "Islands",
     artist: "фрози",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    url: "https://api.altan.ai/platform/media/04598345-e5ba-452f-9c3f-a705f28f6ca8?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
 export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlayingBarProps) {
-  const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
   const [volume, setVolume] = useState(80)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
 
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    const updateTime = () => setCurrentTime(audio.currentTime)
-    const handleLoadedMetadata = () => setDuration(audio.duration)
-    const handleEnded = () => {
-      setIsPlaying(false)
-      if (isRepeat) {
-        audio.currentTime = 0
-      }
-    }
-
-    audio.addEventListener('timeupdate', updateTime)
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata)
-    audio.addEventListener('ended', handleEnded)
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateTime)
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata)
-      audio.removeEventListener('ended', handleEnded)
-    }
-  }, [isRepeat])
-
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.volume = volume / 100
-    }
-  }, [volume])
-
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause()
-        setIsPlaying(false)
-      } else {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(console.error)
-      }
-    }
-  }
-
-  const handleTimeChange = (value: number[]) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = value[0]
-      setCurrentTime(value[0])
-    }
+    setIsPlaying(!isPlaying)
   }
 
   const handleNext = () => {
-    const wasPlaying = isPlaying
-    if (audioRef.current) {
-      audioRef.current.pause()
-    }
-    setIsPlaying(false)
     const nextIndex = (currentSongIndex + 1) % SONGS.length
     setCurrentSongIndex(nextIndex)
-    
-    if (wasPlaying) {
-      setTimeout(() => {
-        if (audioRef.current) {
-          audioRef.current.play()
-            .then(() => setIsPlaying(true))
-            .catch(console.error)
-        }
-      }, 100)
-    }
   }
 
   const handlePrevious = () => {
-    const wasPlaying = isPlaying
-    if (audioRef.current) {
-      audioRef.current.pause()
-    }
-    setIsPlaying(false)
     const prevIndex = currentSongIndex === 0 ? SONGS.length - 1 : currentSongIndex - 1
     setCurrentSongIndex(prevIndex)
-    
-    if (wasPlaying) {
-      setTimeout(() => {
-        if (audioRef.current) {
-          audioRef.current.play()
-            .then(() => setIsPlaying(true))
-            .catch(console.error)
-        }
-      }, 100)
-    }
-  }
-
-  const formatTime = (time: number) => {
-    const minutes = Math.floor(time / 60)
-    const seconds = Math.floor(time % 60)
-    return `${minutes}:${seconds.toString().padStart(2, '0')}`
   }
 
   const currentSong = SONGS[currentSongIndex]
-  const progress = (currentTime / duration) * 100 || 0
 
   return (
     <>
-      {/* ONE Single Audio Element for Everything */}
-      <audio 
-        ref={audioRef}
-        src={currentSong.url}
-        preload="metadata"
-      />
-
       {/* Mobile Player */}
       <div className="md:hidden fixed bottom-0 left-0 right-0">
         <div className="h-1 bg-[#535353]">
           <div 
             className="h-full bg-[#1ed760]" 
-            style={{ width: `${progress}%` }}
+            style={{ width: "0%" }}
           />
         </div>
 
@@ -248,15 +150,14 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
               </button>
             </div>
             <div className="flex items-center gap-2 w-full max-w-md">
-              <span className="text-xs text-zinc-400">{formatTime(currentTime)}</span>
+              <span className="text-xs text-zinc-400">0:00</span>
               <Slider
-                value={[currentTime]}
-                max={duration || 100}
+                value={[0]}
+                max={100}
                 step={1}
                 className="w-full"
-                onValueChange={handleTimeChange}
               />
-              <span className="text-xs text-zinc-400">{formatTime(duration)}</span>
+              <span className="text-xs text-zinc-400">0:00</span>
             </div>
           </div>
           
