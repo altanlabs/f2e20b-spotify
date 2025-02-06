@@ -27,14 +27,14 @@ export function SpotifySidebar() {
             className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Home size={24} />
-            Inicio
+            Home
           </a>
           <a 
             href="/search"
             className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Search size={24} />
-            Buscar
+            Search
           </a>
         </div>
       </div>
@@ -43,7 +43,7 @@ export function SpotifySidebar() {
         <div className="flex items-center gap-2 p-2">
           <button className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Library size={24} />
-            Tu biblioteca
+            Your Library
           </button>
           <button className="ml-auto p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition">
             <Plus size={20} />
@@ -67,7 +67,7 @@ export function SpotifySidebar() {
               />
               <div>
                 <p className="text-sm font-medium">{playlist.name}</p>
-                <p className="text-xs text-zinc-400">Lista • Dapao</p>
+                <p className="text-xs text-zinc-400">Playlist • Dapao</p>
               </div>
             </a>
           ))}
