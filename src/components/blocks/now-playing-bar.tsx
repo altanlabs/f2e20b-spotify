@@ -39,6 +39,12 @@ const SONGS = [
     artist: "фрози",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     url: "https://api.altan.ai/platform/media/04598345-e5ba-452f-9c3f-a705f28f6ca8?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "GBP (feat. 21 Savage)",
+    artist: "Central Cee",
+    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/f3a4619e-dc7a-41b5-abad-a892048180f1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
