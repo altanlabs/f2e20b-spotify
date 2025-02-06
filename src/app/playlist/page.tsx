@@ -56,6 +56,17 @@ const PLAYLIST_SONGS = [
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     addedAt: "hace 2 días",
     hasVideo: true
+  },
+  {
+    id: 5,
+    title: "GBP (feat. 21 Savage)",
+    artist: "Central Cee",
+    album: "GBP",
+    duration: "2:35",
+    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    addedAt: "hace 2 semanas",
+    hasVideo: false,
+    url: "https://api.altan.ai/platform/media/f3a4619e-dc7a-41b5-abad-a892048180f1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
