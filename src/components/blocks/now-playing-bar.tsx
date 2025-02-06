@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react"
 interface NowPlayingBarProps {
   currentSongIndex: number;
   setCurrentSongIndex: (index: number) => void;
+  shouldPlay: boolean;
+  setShouldPlay: (play: boolean) => void;
 }
 
 const SONGS = [
@@ -40,7 +42,7 @@ const SONGS = [
   }
 ]
 
-export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlayingBarProps) {
+export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex, shouldPlay, setShouldPlay }: NowPlayingBarProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -48,6 +50,18 @@ export function NowPlayingBar({ currentSongIndex, setCurrentSongIndex }: NowPlay
   const [volume, setVolume] = useState(80)
   const [isShuffle, setIsShuffle] = useState(false)
   const [isRepeat, setIsRepeat] = useState(false)
+
+  // Handle play when song is selected from Recently Played
+  useEffect(() => {
+    if (shouldPlay && audioRef.current) {
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true)
+          setShouldPlay(false)
+        })
+        .catch(console.error)
+    }
+  }, [currentSongIndex, shouldPlay])
 
   useEffect(() => {
     if (audioRef.current) {
