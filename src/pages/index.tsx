@@ -116,6 +116,7 @@ export default function IndexPage() {
 
   return (
     <div className="min-h-screen flex flex-col bg-black">
+      <ThemeToggle />
       <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
         <aside className="w-64 shrink-0">
           <SpotifySidebar />
