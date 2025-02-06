@@ -1,9 +1,10 @@
 "use client"
 
-import { Play, Pause, Clock } from "lucide-react"
+import { Play, Pause, Clock, Heart } from "lucide-react"
 import { useState } from "react"
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
+import { motion } from "framer-motion"
 
 const PLAYLIST_SONGS = [
   {
@@ -62,10 +63,20 @@ export default function PlaylistPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [shouldPlay, setShouldPlay] = useState(false)
   const [isHovered, setIsHovered] = useState<number | null>(null)
+  const [likedSongs, setLikedSongs] = useState<number[]>([])
 
   const handleSongSelect = (index: number) => {
     setCurrentSongIndex(index)
     setShouldPlay(true)
+  }
+
+  const toggleLike = (songId: number, event: React.MouseEvent) => {
+    event.stopPropagation()
+    if (likedSongs.includes(songId)) {
+      setLikedSongs(likedSongs.filter(id => id !== songId))
+    } else {
+      setLikedSongs([...likedSongs, songId])
+    }
   }
 
   return (
@@ -107,6 +118,7 @@ export default function PlaylistPage() {
                   <th className="text-left pb-2">Álbum</th>
                   <th className="text-left pb-2">Fecha en la que se añadió</th>
                   <th className="w-12 pb-2"><Clock size={16} /></th>
+                  <th className="w-12 pb-2"></th>
                 </tr>
               </thead>
               <tbody>
@@ -141,6 +153,26 @@ export default function PlaylistPage() {
                     <td className="text-zinc-400">{song.album}</td>
                     <td className="text-zinc-400">{song.addedAt}</td>
                     <td className="text-zinc-400">{song.duration}</td>
+                    <td>
+                      <motion.button
+                        onClick={(e) => toggleLike(song.id, e)}
+                        whileTap={{ scale: 0.8 }}
+                        className={`opacity-0 group-hover:opacity-100 transition-opacity ${likedSongs.includes(song.id) ? 'text-[#1ed760]' : 'text-zinc-400 hover:text-white'}`}
+                      >
+                        <motion.div
+                          animate={likedSongs.includes(song.id) ? {
+                            scale: [1, 1.2, 1],
+                            rotate: [0, 15, -15, 0],
+                          } : {}}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Heart
+                            size={16}
+                            fill={likedSongs.includes(song.id) ? "#1ed760" : "none"}
+                          />
+                        </motion.div>
+                      </motion.button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
