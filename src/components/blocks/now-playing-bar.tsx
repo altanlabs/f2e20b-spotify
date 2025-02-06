@@ -45,6 +45,24 @@ const SONGS = [
     artist: "Central Cee",
     image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     url: "https://api.altan.ai/platform/media/f3a4619e-dc7a-41b5-abad-a892048180f1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "1973",
+    artist: "James Blunt",
+    image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/d37685b0-cf42-47b0-a10d-df79c7187230?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "DTMF",
+    artist: "Bad Bunny",
+    image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/ea23eb13-ba30-4583-a75b-a5a88b99a98b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "i like the way you kiss me",
+    artist: "Artemas",
+    image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
+    url: "https://api.altan.ai/platform/media/7dffd5d2-4ad8-4118-9dd1-63ab202b6c21?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
