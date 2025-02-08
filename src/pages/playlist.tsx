@@ -10,6 +10,7 @@ const PLAYLIST_SONGS = [
     duration: "4:38",
     addedAt: "2 days ago",
     isVideo: true,
+    songIndex: 0,
     image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -20,6 +21,7 @@ const PLAYLIST_SONGS = [
     duration: "3:52",
     addedAt: "2 days ago",
     isVideo: true,
+    songIndex: 1,
     image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -29,6 +31,7 @@ const PLAYLIST_SONGS = [
     album: "GNX",
     duration: "2:58",
     addedAt: "2 days ago",
+    songIndex: 2,
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -39,6 +42,7 @@ const PLAYLIST_SONGS = [
     duration: "3:06",
     addedAt: "3 days ago",
     isVideo: true,
+    songIndex: 3,
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -49,6 +53,7 @@ const PLAYLIST_SONGS = [
     duration: "3:04",
     addedAt: "3 days ago",
     isVideo: true,
+    songIndex: 4,
     image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -59,6 +64,7 @@ const PLAYLIST_SONGS = [
     duration: "4:08",
     addedAt: "6 days ago",
     isVideo: true,
+    songIndex: 5,
     image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -69,6 +75,7 @@ const PLAYLIST_SONGS = [
     duration: "3:11",
     addedAt: "1 week ago",
     isVideo: true,
+    songIndex: 6,
     image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -78,6 +85,7 @@ const PLAYLIST_SONGS = [
     album: "Islands (kompa pasión)",
     duration: "2:06",
     addedAt: "2 weeks ago",
+    songIndex: 7,
     image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -87,6 +95,7 @@ const PLAYLIST_SONGS = [
     album: "GBP (feat. 21 Savage)",
     duration: "2:35",
     addedAt: "2 weeks ago",
+    songIndex: 8,
     image: "https://api.altan.ai/platform/media/91a43c68-06d5-4b61-8713-1384ff4e509b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
@@ -97,15 +106,43 @@ const PLAYLIST_SONGS = [
     duration: "4:16",
     addedAt: "2 weeks ago",
     isVideo: true,
+    songIndex: 9,
     image: "https://api.altan.ai/platform/media/9a845218-c2c0-4e61-9eb1-69182ea79ac4?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
   }
 ]
 
-export default function PlaylistPage() {
-  const [currentSongId, setCurrentSongId] = useState<number | null>(null)
+interface PlaylistPageProps {
+  setCurrentSongIndex?: (index: number) => void;
+  setShouldPlay?: (play: boolean) => void;
+}
+
+export default function PlaylistPage({ setCurrentSongIndex, setShouldPlay }: PlaylistPageProps) {
+  const [searchQuery, setSearchQuery] = useState("")
+  const [isPlaying, setIsPlaying] = useState(false)
+
+  const filteredSongs = PLAYLIST_SONGS.filter(song => 
+    song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    song.artist.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    song.album.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  const handlePlaySong = (songIndex: number) => {
+    if (setCurrentSongIndex && setShouldPlay) {
+      setCurrentSongIndex(songIndex)
+      setShouldPlay(true)
+    }
+  }
+
+  const handlePlayAll = () => {
+    if (setCurrentSongIndex && setShouldPlay) {
+      setCurrentSongIndex(0)
+      setShouldPlay(true)
+      setIsPlaying(true)
+    }
+  }
 
   return (
-    <div className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black">
+    <div className="flex-1">
       {/* Header */}
       <div className="flex items-end gap-6 p-6 bg-gradient-to-b from-zinc-700/50 to-transparent">
         <img 
@@ -130,7 +167,10 @@ export default function PlaylistPage() {
 
       {/* Controls */}
       <div className="flex items-center gap-6 p-6">
-        <button className="w-14 h-14 rounded-full bg-[#1ed760] flex items-center justify-center shadow-xl hover:scale-105 transition">
+        <button 
+          className="w-14 h-14 rounded-full bg-[#1ed760] flex items-center justify-center shadow-xl hover:scale-105 transition"
+          onClick={handlePlayAll}
+        >
           <Play size={24} className="text-black ml-1" fill="black" />
         </button>
         <button className="w-14 h-14 rounded-full bg-zinc-800/80 flex items-center justify-center hover:bg-zinc-800 transition">
@@ -145,6 +185,8 @@ export default function PlaylistPage() {
           <input 
             type="text"
             placeholder="Search in playlist"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-transparent border-none text-sm text-zinc-400 placeholder:text-zinc-500 focus:outline-none"
           />
         </div>
@@ -168,11 +210,11 @@ export default function PlaylistPage() {
             </tr>
           </thead>
           <tbody>
-            {PLAYLIST_SONGS.map((song) => (
+            {filteredSongs.map((song) => (
               <tr 
                 key={song.id}
                 className="group hover:bg-white/5 rounded-lg cursor-pointer"
-                onClick={() => setCurrentSongId(song.id)}
+                onClick={() => handlePlaySong(song.songIndex)}
               >
                 <td className="py-2 w-8">
                   <span className="text-sm text-zinc-400 group-hover:hidden">
