@@ -2,9 +2,8 @@
 
 import { Play, Pause, Clock, Heart } from "lucide-react"
 import { useState } from "react"
-import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
-import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { motion } from "framer-motion"
+import { usePlayer } from "@/App"
 
 const PLAYLIST_SONGS = [
   {
@@ -71,11 +70,9 @@ const PLAYLIST_SONGS = [
 ]
 
 export default function PlaylistPage() {
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [shouldPlay, setShouldPlay] = useState(false)
+  const { setCurrentSongIndex, setShouldPlay } = usePlayer()
   const [isHovered, setIsHovered] = useState<number | null>(null)
   const [likedSongs, setLikedSongs] = useState<number[]>([])
-  const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
 
   const handleSongSelect = (index: number) => {
     setCurrentSongIndex(index)
@@ -92,115 +89,99 @@ export default function PlaylistPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-black">
-      <div className="flex flex-1 overflow-hidden p-2 gap-2">
-        <aside className="w-64 shrink-0">
-          <SpotifySidebar 
-            isCompressed={isSidebarCompressed}
-            onToggleCompress={setIsSidebarCompressed}
-          />
-        </aside>
-        <main className="flex-1 rounded-lg overflow-auto">
-          {/* Playlist Header */}
-          <div className="flex items-end gap-6 bg-gradient-to-b from-zinc-700/50 to-zinc-900/50 p-6">
+    <div className="flex-1">
+      {/* Playlist Header */}
+      <div className="flex items-end gap-6 bg-gradient-to-b from-zinc-700/50 to-zinc-900/50 p-6">
+        <img 
+          src="https://api.altan.ai/platform/media/91a43c68-06d5-4b61-8713-1384ff4e509b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+          alt="Playlist cover"
+          className="w-52 h-52 shadow-lg"
+        />
+        <div>
+          <p className="text-sm font-medium mb-2">Public Playlist</p>
+          <h1 className="text-8xl font-bold mb-6">Paaau</h1>
+          <div className="flex items-center gap-2">
             <img 
               src="https://api.altan.ai/platform/media/91a43c68-06d5-4b61-8713-1384ff4e509b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-              alt="Playlist cover"
-              className="w-52 h-52 shadow-lg"
+              alt="Profile"
+              className="w-6 h-6 rounded-full"
             />
-            <div>
-              <p className="text-sm font-medium mb-2">Public Playlist</p>
-              <h1 className="text-8xl font-bold mb-6">Paaau</h1>
-              <div className="flex items-center gap-2">
-                <img 
-                  src="/profile.jpg"
-                  alt="Profile"
-                  className="w-6 h-6 rounded-full"
-                />
-                <span className="text-sm font-medium">Dapao</span>
-                <span className="text-sm text-zinc-300">• 8 saves • 1741 songs, 102h 16min</span>
-              </div>
-            </div>
+            <span className="text-sm font-medium">Dapao</span>
+            <span className="text-sm text-zinc-300">• 8 saves • {PLAYLIST_SONGS.length} songs</span>
           </div>
-
-          {/* Songs List */}
-          <div className="p-6">
-            <table className="w-full border-collapse">
-              <thead>
-                <tr className="text-sm text-zinc-400 border-b border-zinc-800">
-                  <th className="w-12 text-center pb-2">#</th>
-                  <th className="text-left pb-2">Title</th>
-                  <th className="text-left pb-2">Album</th>
-                  <th className="text-left pb-2">Date added</th>
-                  <th className="w-12 pb-2"><Clock size={16} /></th>
-                  <th className="w-12 pb-2"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {PLAYLIST_SONGS.map((song, index) => (
-                  <tr 
-                    key={song.id}
-                    className="group hover:bg-white/10 cursor-pointer"
-                    onClick={() => handleSongSelect(song.id)}
-                    onMouseEnter={() => setIsHovered(index)}
-                    onMouseLeave={() => setIsHovered(null)}
-                  >
-                    <td className="py-2 text-center">
-                      {isHovered === index ? (
-                        <Play size={16} className="mx-auto" />
-                      ) : (
-                        <span className="text-zinc-400">{index + 1}</span>
-                      )}
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <img 
-                          src={song.image} 
-                          alt={song.title}
-                          className="w-10 h-10"
-                        />
-                        <div>
-                          <p className="font-medium">{song.title}</p>
-                          <p className="text-sm text-zinc-400">{song.artist}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="text-zinc-400">{song.album}</td>
-                    <td className="text-zinc-400">{song.addedAt}</td>
-                    <td className="text-zinc-400">{song.duration}</td>
-                    <td>
-                      <motion.button
-                        onClick={(e) => toggleLike(song.id, e)}
-                        whileTap={{ scale: 0.8 }}
-                        className={`opacity-0 group-hover:opacity-100 transition-opacity ${likedSongs.includes(song.id) ? 'text-[#1ed760]' : 'text-zinc-400 hover:text-white'}`}
-                      >
-                        <motion.div
-                          animate={likedSongs.includes(song.id) ? {
-                            scale: [1, 1.2, 1],
-                            rotate: [0, 15, -15, 0],
-                          } : {}}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <Heart
-                            size={16}
-                            fill={likedSongs.includes(song.id) ? "#1ed760" : "none"}
-                          />
-                        </motion.div>
-                      </motion.button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </main>
+        </div>
       </div>
-      <NowPlayingBar 
-        currentSongIndex={currentSongIndex}
-        setCurrentSongIndex={setCurrentSongIndex}
-        shouldPlay={shouldPlay}
-        setShouldPlay={setShouldPlay}
-      />
+
+      {/* Songs List */}
+      <div className="p-6">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="text-sm text-zinc-400 border-b border-zinc-800">
+              <th className="w-12 text-center pb-2">#</th>
+              <th className="text-left pb-2">Title</th>
+              <th className="text-left pb-2">Album</th>
+              <th className="text-left pb-2">Date added</th>
+              <th className="w-12 pb-2"><Clock size={16} /></th>
+              <th className="w-12 pb-2"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {PLAYLIST_SONGS.map((song, index) => (
+              <tr 
+                key={song.id}
+                className="group hover:bg-white/10 cursor-pointer"
+                onClick={() => handleSongSelect(song.id)}
+                onMouseEnter={() => setIsHovered(index)}
+                onMouseLeave={() => setIsHovered(null)}
+              >
+                <td className="py-2 text-center">
+                  {isHovered === index ? (
+                    <Play size={16} className="mx-auto" />
+                  ) : (
+                    <span className="text-zinc-400">{index + 1}</span>
+                  )}
+                </td>
+                <td>
+                  <div className="flex items-center gap-3">
+                    <img 
+                      src={song.image} 
+                      alt={song.title}
+                      className="w-10 h-10"
+                    />
+                    <div>
+                      <p className="font-medium">{song.title}</p>
+                      <p className="text-sm text-zinc-400">{song.artist}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="text-zinc-400">{song.album}</td>
+                <td className="text-zinc-400">{song.addedAt}</td>
+                <td className="text-zinc-400">{song.duration}</td>
+                <td>
+                  <motion.button
+                    onClick={(e) => toggleLike(song.id, e)}
+                    whileTap={{ scale: 0.8 }}
+                    className={`opacity-0 group-hover:opacity-100 transition-opacity ${likedSongs.includes(song.id) ? 'text-[#1ed760]' : 'text-zinc-400 hover:text-white'}`}
+                  >
+                    <motion.div
+                      animate={likedSongs.includes(song.id) ? {
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 15, -15, 0],
+                      } : {}}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Heart
+                        size={16}
+                        fill={likedSongs.includes(song.id) ? "#1ed760" : "none"}
+                      />
+                    </motion.div>
+                  </motion.button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
