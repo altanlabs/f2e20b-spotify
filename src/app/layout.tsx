@@ -1,12 +1,16 @@
-import './globals.css'
+"use client"
 
-interface RootLayoutProps {
+import { useState } from "react"
+
+export default function AppLayout({
+  children,
+}: {
   children: React.ReactNode
-}
+}) {
+  const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
 
-export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <div className="font-sans">
+    <div className="min-h-screen flex flex-col bg-black">
       {children}
     </div>
   )
