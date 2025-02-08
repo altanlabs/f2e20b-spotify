@@ -1,5 +1,6 @@
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
+import { AppHeader } from "@/components/blocks/app-header"
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
 
@@ -24,6 +25,7 @@ export default function App() {
           isSidebarCompressed ? 'pl-0' : 'pl-2'
         } pr-2 pt-2`}>
           <div className="bg-gradient-to-b from-zinc-800/50 to-black rounded-lg h-full">
+            <AppHeader />
             <Outlet />
           </div>
         </main>
