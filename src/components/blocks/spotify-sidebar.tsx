@@ -1,7 +1,7 @@
 "use client"
 
 import { Home, Search, Library, Plus, PanelLeftClose, PanelLeftOpen } from "lucide-react"
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -42,31 +42,15 @@ const SONGS = [
     title: "Un Verano Sin Ti",
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "GBP (feat. 21 Savage)",
-    artist: "Central Cee",
-    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "1973",
-    artist: "James Blunt",
-    image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "DTMF",
-    artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
-  },
-  {
-    title: "i like the way you kiss me",
-    artist: "Artemas",
-    image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
-export function SpotifySidebar() {
-  const [isCompressed, setIsCompressed] = useState(false)
+interface SpotifySidebarProps {
+  isCompressed: boolean;
+  onToggleCompress: (compressed: boolean) => void;
+}
+
+export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySidebarProps) {
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [showSearchResults, setShowSearchResults] = useState(false)
@@ -75,6 +59,20 @@ export function SpotifySidebar() {
     name: "",
     image: null as File | null
   })
+  
+  const searchRef = useRef<HTMLDivElement>(null)
+
+  // Close search results when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setShowSearchResults(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
 
   const filteredSongs = SONGS.filter(song => 
     song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -100,7 +98,7 @@ export function SpotifySidebar() {
   }
 
   return (
-    <div className={`flex flex-col gap-2 h-full transition-all duration-300 ${isCompressed ? 'w-20' : 'w-full'}`}>
+    <div className="flex flex-col gap-2 h-full">
       <div className="bg-zinc-900 rounded-lg p-4">
         <div className="flex flex-col gap-4">
           <a 
@@ -110,7 +108,7 @@ export function SpotifySidebar() {
             <Home size={24} />
             {!isCompressed && "Home"}
           </a>
-          <div className="relative">
+          <div className="relative" ref={searchRef}>
             <div className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition">
               <Search size={24} />
               {!isCompressed && (
@@ -167,7 +165,7 @@ export function SpotifySidebar() {
                 <Plus size={20} />
               </button>
               <button 
-                onClick={() => setIsCompressed(true)}
+                onClick={() => onToggleCompress(true)}
                 className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition"
               >
                 <PanelLeftClose size={20} />
@@ -176,7 +174,7 @@ export function SpotifySidebar() {
           )}
           {isCompressed && (
             <button 
-              onClick={() => setIsCompressed(false)}
+              onClick={() => onToggleCompress(false)}
               className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition ml-auto"
             >
               <PanelLeftOpen size={20} />
