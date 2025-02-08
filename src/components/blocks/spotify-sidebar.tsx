@@ -1,6 +1,6 @@
 "use client"
 
-import { Home, Search, Library, Plus, ArrowRight, ArrowLeft } from "lucide-react"
+import { Home, Search, Library, Plus, PanelLeftClose, PanelLeftOpen } from "lucide-react"
 import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -22,24 +22,64 @@ const PLAYLISTS = [
   }
 ]
 
+const SONGS = [
+  {
+    title: "Mr. Morale & The Big Steppers",
+    artist: "Kendrick Lamar",
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "CALL ME IF YOU GET LOST",
+    artist: "Tyler, The Creator",
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "Islands",
+    artist: "фрози",
+    image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "Un Verano Sin Ti",
+    artist: "Bad Bunny",
+    image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "GBP (feat. 21 Savage)",
+    artist: "Central Cee",
+    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "1973",
+    artist: "James Blunt",
+    image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "DTMF",
+    artist: "Bad Bunny",
+    image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  },
+  {
+    title: "i like the way you kiss me",
+    artist: "Artemas",
+    image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
+  }
+]
+
 export function SpotifySidebar() {
   const [isCompressed, setIsCompressed] = useState(false)
   const [isCreateOpen, setIsCreateOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [showSearchResults, setShowSearchResults] = useState(false)
   const [playlists, setPlaylists] = useState(PLAYLISTS)
   const [newPlaylist, setNewPlaylist] = useState({
     name: "",
     image: null as File | null
   })
 
-  const handleSearch = (query: string) => {
-    setSearchQuery(query)
-    // Filter playlists based on search query
-    const filtered = PLAYLISTS.filter(playlist => 
-      playlist.name.toLowerCase().includes(query.toLowerCase())
-    )
-    setPlaylists(filtered)
-  }
+  const filteredSongs = SONGS.filter(song => 
+    song.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    song.artist.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   const handleCreatePlaylist = () => {
     if (newPlaylist.name && newPlaylist.image) {
@@ -76,13 +116,38 @@ export function SpotifySidebar() {
               {!isCompressed && (
                 <input
                   type="text"
-                  placeholder="Search"
+                  placeholder="What do you want to listen to?"
                   value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setShowSearchResults(true)}
                   className="bg-transparent border-none outline-none text-white placeholder-zinc-400 w-full"
                 />
               )}
             </div>
+            {/* Search Results Dropdown */}
+            {showSearchResults && searchQuery && !isCompressed && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-zinc-800 rounded-lg shadow-xl z-50">
+                <div className="p-4">
+                  <h3 className="text-sm font-semibold text-white mb-4">Recent searches</h3>
+                  {filteredSongs.map((song, i) => (
+                    <div 
+                      key={i}
+                      className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
+                    >
+                      <img 
+                        src={song.image} 
+                        alt={song.title}
+                        className="w-10 h-10 rounded object-cover"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-white">{song.title}</p>
+                        <p className="text-xs text-zinc-400">{song.artist}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -105,7 +170,7 @@ export function SpotifySidebar() {
                 onClick={() => setIsCompressed(true)}
                 className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition"
               >
-                <ArrowRight size={20} />
+                <PanelLeftClose size={20} />
               </button>
             </>
           )}
@@ -114,7 +179,7 @@ export function SpotifySidebar() {
               onClick={() => setIsCompressed(false)}
               className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition ml-auto"
             >
-              <ArrowLeft size={20} />
+              <PanelLeftOpen size={20} />
             </button>
           )}
         </div>
