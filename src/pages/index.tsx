@@ -1,8 +1,5 @@
-import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
-import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
-import { Play, Menu } from "lucide-react"
-import { useState } from "react"
-import { ThemeToggle } from "@/components/blocks/theme-toggle"
+import { Play } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 
 const FEATURED_PLAYLISTS = [
   {
@@ -59,22 +56,17 @@ const RECENT_ALBUMS = [
 ]
 
 export default function IndexPage() {
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [shouldPlay, setShouldPlay] = useState(false)
+  const navigate = useNavigate()
 
-  const handleSongSelect = (songIndex: number) => {
-    setCurrentSongIndex(songIndex)
-    setShouldPlay(true)
-  }
-
-  const MainContent = () => (
-    <>
+  return (
+    <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         {FEATURED_PLAYLISTS.map((playlist, i) => (
           <div 
             key={i} 
             className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md flex items-center overflow-hidden transition group cursor-pointer"
+            onClick={() => navigate('/playlist/paaau')}
           >
             <img 
               src={playlist.image} 
@@ -95,7 +87,6 @@ export default function IndexPage() {
           <div 
             key={i} 
             className="bg-zinc-800/30 hover:bg-zinc-800/50 rounded-md p-4 transition group cursor-pointer"
-            onClick={() => album.songIndex !== undefined && handleSongSelect(album.songIndex)}
           >
             <div className="relative mb-4">
               <img 
@@ -112,26 +103,6 @@ export default function IndexPage() {
           </div>
         ))}
       </div>
-    </>
-  )
-
-  return (
-    <div className="min-h-screen flex flex-col bg-black">
-      <ThemeToggle />
-      <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
-        <aside className="w-64 shrink-0">
-          <SpotifySidebar />
-        </aside>
-        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
-          <MainContent />
-        </main>
-      </div>
-      <NowPlayingBar 
-        currentSongIndex={currentSongIndex} 
-        setCurrentSongIndex={setCurrentSongIndex}
-        shouldPlay={shouldPlay}
-        setShouldPlay={setShouldPlay}
-      />
     </div>
   )
 }
