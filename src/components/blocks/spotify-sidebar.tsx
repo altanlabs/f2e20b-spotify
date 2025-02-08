@@ -1,6 +1,11 @@
 "use client"
 
-import { Home, Search, Library, Plus, ArrowRight } from "lucide-react"
+import { Home, Search, Library, Plus, ArrowRight, ArrowLeft } from "lucide-react"
+import { useState } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Button } from "@/components/ui/button"
 
 const PLAYLISTS = [
   {
@@ -9,17 +14,53 @@ const PLAYLISTS = [
   },
   {
     name: "Rap Mix",
-    image: "https://api.altan.ai/platform/media/6b89961b-d220-4f8e-9d83-bc01c72c0b7a?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
+    image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   },
   {
     name: "Hip Hop Classics",
-    image: "https://api.altan.ai/platform/media/9a845218-c2c0-4e61-9eb1-69182ea79ac4?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
+    image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
 ]
 
 export function SpotifySidebar() {
+  const [isCompressed, setIsCompressed] = useState(false)
+  const [isCreateOpen, setIsCreateOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [playlists, setPlaylists] = useState(PLAYLISTS)
+  const [newPlaylist, setNewPlaylist] = useState({
+    name: "",
+    image: null as File | null
+  })
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query)
+    // Filter playlists based on search query
+    const filtered = PLAYLISTS.filter(playlist => 
+      playlist.name.toLowerCase().includes(query.toLowerCase())
+    )
+    setPlaylists(filtered)
+  }
+
+  const handleCreatePlaylist = () => {
+    if (newPlaylist.name && newPlaylist.image) {
+      const imageUrl = URL.createObjectURL(newPlaylist.image)
+      setPlaylists([...playlists, {
+        name: newPlaylist.name,
+        image: imageUrl
+      }])
+      setIsCreateOpen(false)
+      setNewPlaylist({ name: "", image: null })
+    }
+  }
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setNewPlaylist({ ...newPlaylist, image: e.target.files[0] })
+    }
+  }
+
   return (
-    <div className="flex flex-col gap-2 h-full">
+    <div className={`flex flex-col gap-2 h-full transition-all duration-300 ${isCompressed ? 'w-20' : 'w-full'}`}>
       <div className="bg-zinc-900 rounded-lg p-4">
         <div className="flex flex-col gap-4">
           <a 
@@ -27,15 +68,22 @@ export function SpotifySidebar() {
             className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
           >
             <Home size={24} />
-            Home
+            {!isCompressed && "Home"}
           </a>
-          <a 
-            href="/search"
-            className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition"
-          >
-            <Search size={24} />
-            Search
-          </a>
+          <div className="relative">
+            <div className="flex items-center gap-4 text-sm font-medium text-zinc-400 hover:text-white transition">
+              <Search size={24} />
+              {!isCompressed && (
+                <input
+                  type="text"
+                  placeholder="Search"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  className="bg-transparent border-none outline-none text-white placeholder-zinc-400 w-full"
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -43,18 +91,36 @@ export function SpotifySidebar() {
         <div className="flex items-center gap-2 p-2">
           <button className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Library size={24} />
-            Your Library
+            {!isCompressed && "Your Library"}
           </button>
-          <button className="ml-auto p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition">
-            <Plus size={20} />
-          </button>
-          <button className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition">
-            <ArrowRight size={20} />
-          </button>
+          {!isCompressed && (
+            <>
+              <button 
+                onClick={() => setIsCreateOpen(true)}
+                className="ml-auto p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition"
+              >
+                <Plus size={20} />
+              </button>
+              <button 
+                onClick={() => setIsCompressed(true)}
+                className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition"
+              >
+                <ArrowRight size={20} />
+              </button>
+            </>
+          )}
+          {isCompressed && (
+            <button 
+              onClick={() => setIsCompressed(false)}
+              className="p-1 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition ml-auto"
+            >
+              <ArrowLeft size={20} />
+            </button>
+          )}
         </div>
 
         <div className="mt-4 space-y-2">
-          {PLAYLISTS.map((playlist, i) => (
+          {playlists.map((playlist, i) => (
             <a
               key={i}
               href="/playlist/paaau"
@@ -65,14 +131,48 @@ export function SpotifySidebar() {
                 alt={playlist.name}
                 className="w-12 h-12 rounded object-cover"
               />
-              <div>
-                <p className="text-sm font-medium">{playlist.name}</p>
-                <p className="text-xs text-zinc-400">Playlist • Dapao</p>
-              </div>
+              {!isCompressed && (
+                <div>
+                  <p className="text-sm font-medium">{playlist.name}</p>
+                  <p className="text-xs text-zinc-400">Playlist • Dapao</p>
+                </div>
+              )}
             </a>
           ))}
         </div>
       </div>
+
+      {/* Create Playlist Dialog */}
+      <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create New Playlist</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Playlist Name</Label>
+              <Input
+                id="name"
+                value={newPlaylist.name}
+                onChange={(e) => setNewPlaylist({ ...newPlaylist, name: e.target.value })}
+                placeholder="My Awesome Playlist"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="image">Cover Image</Label>
+              <Input
+                id="image"
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+              />
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <Button onClick={handleCreatePlaylist}>Create Playlist</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
