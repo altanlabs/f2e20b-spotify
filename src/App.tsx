@@ -2,7 +2,16 @@ import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { AppHeader } from "@/components/blocks/app-header"
 import { useState } from "react"
-import { Outlet } from "react-router-dom"
+import { Outlet, useOutletContext } from "react-router-dom"
+
+type ContextType = { 
+  setCurrentSongIndex: (index: number) => void;
+  setShouldPlay: (play: boolean) => void;
+}
+
+export function usePlayer() {
+  return useOutletContext<ContextType>()
+}
 
 export default function App() {
   const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
@@ -26,7 +35,7 @@ export default function App() {
         } pr-2 pt-2`}>
           <div className="bg-gradient-to-b from-zinc-800/50 to-black rounded-lg h-full">
             <AppHeader />
-            <Outlet />
+            <Outlet context={{ setCurrentSongIndex, setShouldPlay }} />
           </div>
         </main>
       </div>
