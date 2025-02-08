@@ -5,6 +5,8 @@ import { Outlet } from "react-router-dom"
 
 export default function App() {
   const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
+  const [currentSongIndex, setCurrentSongIndex] = useState(0)
+  const [shouldPlay, setShouldPlay] = useState(false)
 
   return (
     <div className="min-h-screen flex flex-col bg-black">
@@ -29,7 +31,12 @@ export default function App() {
 
       {/* Now playing bar */}
       <div className="h-24 mt-2">
-        <NowPlayingBar />
+        <NowPlayingBar 
+          currentSongIndex={currentSongIndex}
+          setCurrentSongIndex={setCurrentSongIndex}
+          shouldPlay={shouldPlay}
+          setShouldPlay={setShouldPlay}
+        />
       </div>
     </div>
   )
