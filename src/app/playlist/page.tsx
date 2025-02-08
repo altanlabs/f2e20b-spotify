@@ -14,7 +14,7 @@ const PLAYLIST_SONGS = [
     album: "CHROMAKOPIA",
     duration: "4:38",
     image: "https://api.altan.ai/platform/media/12179ebc-da1b-43f2-bacd-5c7c26dac31d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 1 día",
+    addedAt: "1 day ago",
     hasVideo: false
   },
   {
@@ -24,7 +24,7 @@ const PLAYLIST_SONGS = [
     album: "Un Verano Sin Ti",
     duration: "3:52",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 1 día",
+    addedAt: "1 day ago",
     hasVideo: true
   },
   {
@@ -34,7 +34,7 @@ const PLAYLIST_SONGS = [
     album: "GNX",
     duration: "2:58",
     image: "https://api.altan.ai/platform/media/9bdf3745-52a4-4209-b658-ff976d70a60e?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 2 días",
+    addedAt: "2 days ago",
     hasVideo: false
   },
   {
@@ -44,7 +44,7 @@ const PLAYLIST_SONGS = [
     album: "miau",
     duration: "3:06",
     image: "https://api.altan.ai/platform/media/c98f714f-1ea8-4ee3-b8ee-2ce1feb827cd?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 2 días",
+    addedAt: "2 days ago",
     hasVideo: true
   },
   {
@@ -54,7 +54,7 @@ const PLAYLIST_SONGS = [
     album: "CRUZ",
     duration: "3:04",
     image: "https://api.altan.ai/platform/media/838c6502-ab0a-49b7-8d25-3c317cb8bdd6?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 2 días",
+    addedAt: "2 days ago",
     hasVideo: true
   },
   {
@@ -64,7 +64,7 @@ const PLAYLIST_SONGS = [
     album: "GBP",
     duration: "2:35",
     image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    addedAt: "hace 2 semanas",
+    addedAt: "2 weeks ago",
     hasVideo: false,
     url: "https://api.altan.ai/platform/media/f3a4619e-dc7a-41b5-abad-a892048180f1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c"
   }
@@ -75,6 +75,7 @@ export default function PlaylistPage() {
   const [shouldPlay, setShouldPlay] = useState(false)
   const [isHovered, setIsHovered] = useState<number | null>(null)
   const [likedSongs, setLikedSongs] = useState<number[]>([])
+  const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
 
   const handleSongSelect = (index: number) => {
     setCurrentSongIndex(index)
@@ -94,7 +95,10 @@ export default function PlaylistPage() {
     <div className="min-h-screen flex flex-col bg-black">
       <div className="flex flex-1 overflow-hidden p-2 gap-2">
         <aside className="w-64 shrink-0">
-          <SpotifySidebar />
+          <SpotifySidebar 
+            isCompressed={isSidebarCompressed}
+            onToggleCompress={setIsSidebarCompressed}
+          />
         </aside>
         <main className="flex-1 rounded-lg overflow-auto">
           {/* Playlist Header */}
@@ -105,7 +109,7 @@ export default function PlaylistPage() {
               className="w-52 h-52 shadow-lg"
             />
             <div>
-              <p className="text-sm font-medium mb-2">Lista pública</p>
+              <p className="text-sm font-medium mb-2">Public Playlist</p>
               <h1 className="text-8xl font-bold mb-6">Paaau</h1>
               <div className="flex items-center gap-2">
                 <img 
@@ -114,7 +118,7 @@ export default function PlaylistPage() {
                   className="w-6 h-6 rounded-full"
                 />
                 <span className="text-sm font-medium">Dapao</span>
-                <span className="text-sm text-zinc-300">• guardada 8 veces • 1741 canciones, 102h 16min</span>
+                <span className="text-sm text-zinc-300">• 8 saves • 1741 songs, 102h 16min</span>
               </div>
             </div>
           </div>
@@ -125,9 +129,9 @@ export default function PlaylistPage() {
               <thead>
                 <tr className="text-sm text-zinc-400 border-b border-zinc-800">
                   <th className="w-12 text-center pb-2">#</th>
-                  <th className="text-left pb-2">Título</th>
-                  <th className="text-left pb-2">Álbum</th>
-                  <th className="text-left pb-2">Fecha en la que se añadió</th>
+                  <th className="text-left pb-2">Title</th>
+                  <th className="text-left pb-2">Album</th>
+                  <th className="text-left pb-2">Date added</th>
                   <th className="w-12 pb-2"><Clock size={16} /></th>
                   <th className="w-12 pb-2"></th>
                 </tr>
