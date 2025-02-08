@@ -1,9 +1,8 @@
 "use client"
 
-import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
-import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
 import { Play } from "lucide-react"
 import { useState } from "react"
+import { usePlayer } from "@/App"
 
 const FEATURED_PLAYLISTS = [
   {
@@ -59,18 +58,16 @@ const RECENT_ALBUMS = [
   }
 ]
 
-export default function IndexPage() {
-  const [currentSongIndex, setCurrentSongIndex] = useState(0)
-  const [shouldPlay, setShouldPlay] = useState(false)
-  const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
+export default function HomePage() {
+  const { setCurrentSongIndex, setShouldPlay } = usePlayer()
 
   const handleSongSelect = (songIndex: number) => {
     setCurrentSongIndex(songIndex)
     setShouldPlay(true)
   }
 
-  const MainContent = () => (
-    <>
+  return (
+    <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Good Evening</h1>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         {FEATURED_PLAYLISTS.map((playlist, i) => (
@@ -114,28 +111,6 @@ export default function IndexPage() {
           </div>
         ))}
       </div>
-    </>
-  )
-
-  return (
-    <div className="min-h-screen flex flex-col bg-black">
-      <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
-        <aside className="w-64 shrink-0">
-          <SpotifySidebar 
-            isCompressed={isSidebarCompressed}
-            onToggleCompress={setIsSidebarCompressed}
-          />
-        </aside>
-        <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
-          <MainContent />
-        </main>
-      </div>
-      <NowPlayingBar 
-        currentSongIndex={currentSongIndex}
-        setCurrentSongIndex={setCurrentSongIndex}
-        shouldPlay={shouldPlay}
-        setShouldPlay={setShouldPlay}
-      />
     </div>
   )
 }
