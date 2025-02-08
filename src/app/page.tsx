@@ -2,7 +2,7 @@
 
 import { SpotifySidebar } from "@/components/blocks/spotify-sidebar"
 import { NowPlayingBar } from "@/components/blocks/now-playing-bar"
-import { Play, Menu } from "lucide-react"
+import { Play } from "lucide-react"
 import { useState } from "react"
 
 const FEATURED_PLAYLISTS = [
@@ -56,36 +56,13 @@ const RECENT_ALBUMS = [
     artist: "Bad Bunny",
     image: "https://api.altan.ai/platform/media/c676d466-ee2a-47f7-8894-96974602fd2d?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
     songIndex: 1
-  },
-  {
-    title: "GBP (feat. 21 Savage)",
-    artist: "Central Cee",
-    image: "https://api.altan.ai/platform/media/26e6bc60-837f-4ac9-8983-4620298519a3?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 5
-  },
-  {
-    title: "1973",
-    artist: "James Blunt",
-    image: "https://api.altan.ai/platform/media/35c27b69-662d-478c-8464-6ea1a3cef440?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 6
-  },
-  {
-    title: "DTMF",
-    artist: "Bad Bunny",
-    image: "https://api.altan.ai/platform/media/f0f9d0d7-c7ed-4c3c-bfda-6aa0deb26ad1?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 7
-  },
-  {
-    title: "i like the way you kiss me",
-    artist: "Artemas",
-    image: "https://api.altan.ai/platform/media/a067a1b2-b23c-4997-aaa9-a2efe6c0ff4b?account_id=023bdd30-62a4-468e-bc37-64aaec2a040c",
-    songIndex: 8
   }
 ]
 
 export default function IndexPage() {
   const [currentSongIndex, setCurrentSongIndex] = useState(0)
   const [shouldPlay, setShouldPlay] = useState(false)
+  const [isSidebarCompressed, setIsSidebarCompressed] = useState(false)
 
   const handleSongSelect = (songIndex: number) => {
     setCurrentSongIndex(songIndex)
@@ -144,7 +121,10 @@ export default function IndexPage() {
     <div className="min-h-screen flex flex-col bg-black">
       <div className="hidden md:flex flex-1 overflow-hidden p-2 gap-2">
         <aside className="w-64 shrink-0">
-          <SpotifySidebar />
+          <SpotifySidebar 
+            isCompressed={isSidebarCompressed}
+            onToggleCompress={setIsSidebarCompressed}
+          />
         </aside>
         <main className="flex-1 bg-gradient-to-b from-zinc-800/50 to-black rounded-lg p-6 overflow-auto">
           <MainContent />
