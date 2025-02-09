@@ -67,7 +67,7 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
         </div>
       </div>
 
-      <div className="bg-zinc-900 rounded-lg p-2 flex-1">
+      <div className="bg-zinc-900 rounded-lg p-2 flex-1 overflow-hidden flex flex-col">
         <div className="flex items-center gap-2 p-2">
           <button className="flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition">
             <Library size={24} />
@@ -99,26 +99,28 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
           )}
         </div>
 
-        <div className="mt-4 space-y-2">
-          {playlists.map((playlist, i) => (
-            <a
-              key={i}
-              href="/playlist/paaau"
-              className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
-            >
-              <img 
-                src={playlist.image} 
-                alt={playlist.name}
-                className="w-12 h-12 rounded object-cover"
-              />
-              {!isCompressed && (
-                <div>
-                  <p className="text-sm font-medium">{playlist.name}</p>
-                  <p className="text-xs text-zinc-400">Playlist • Dapao</p>
-                </div>
-              )}
-            </a>
-          ))}
+        <div className="mt-4 flex-1 overflow-auto">
+          <div className="space-y-2">
+            {playlists.map((playlist, i) => (
+              <a
+                key={i}
+                href="/playlist/paaau"
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
+              >
+                <img 
+                  src={playlist.image} 
+                  alt={playlist.name}
+                  className="w-12 h-12 rounded object-cover"
+                />
+                {!isCompressed && (
+                  <div>
+                    <p className="text-sm font-medium">{playlist.name}</p>
+                    <p className="text-xs text-zinc-400">Playlist • Dapao</p>
+                  </div>
+                )}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
 
