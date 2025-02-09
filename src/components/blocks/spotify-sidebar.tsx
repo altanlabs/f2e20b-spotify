@@ -1,8 +1,8 @@
 "use client"
 
-import { Home, Library, Plus, PanelLeftClose, PanelLeftOpen, Pencil, Trash2, GripVertical } from "lucide-react"
-import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { Home, Library, Plus, PanelLeftClose, PanelLeftOpen, Pencil, Trash2, GripVertical, Search } from "lucide-react"
+import { useState, useMemo } from "react"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -53,11 +53,22 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
   const [playlists, setPlaylists] = useState<Playlist[]>(INITIAL_PLAYLISTS)
   const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null)
   const [deletePlaylist, setDeletePlaylist] = useState<Playlist | null>(null)
+  const [searchQuery, setSearchQuery] = useState("")
   const [formData, setFormData] = useState({
     name: "",
     image: null as File | null
   })
   const [draggedPlaylist, setDraggedPlaylist] = useState<Playlist | null>(null)
+
+  // Filter playlists based on search query
+  const filteredPlaylists = useMemo(() => {
+    if (!searchQuery.trim()) return playlists
+    
+    const query = searchQuery.toLowerCase()
+    return playlists.filter(playlist => 
+      playlist.name.toLowerCase().includes(query)
+    )
+  }, [playlists, searchQuery])
 
   const handleCreatePlaylist = () => {
     if (formData.name) {
@@ -192,55 +203,75 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
           )}
         </div>
 
-        <div className="mt-4 flex-1 overflow-auto">
+        {!isCompressed && (
+          <div className="px-2 py-2">
+            <div className="relative">
+              <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-zinc-400" size={20} />
+              <Input
+                placeholder="Search in Your Library"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-9 bg-zinc-800/50 border-none text-sm placeholder:text-zinc-500"
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="mt-2 flex-1 overflow-auto">
           <div className="space-y-2">
-            {playlists.map((playlist) => (
-              <ContextMenu key={playlist.id}>
-                <ContextMenuTrigger>
-                  <div
-                    draggable
-                    onDragStart={() => handleDragStart(playlist)}
-                    onDragOver={(e) => handleDragOver(e, playlist)}
-                    onDragEnd={handleDragEnd}
-                    className={`flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer ${
-                      draggedPlaylist?.id === playlist.id ? 'opacity-50' : ''
-                    }`}
-                  >
-                    <div className="flex items-center gap-3 flex-1">
-                      <GripVertical size={16} className="text-zinc-400 cursor-grab active:cursor-grabbing" />
-                      <img 
-                        src={playlist.image} 
-                        alt={playlist.name}
-                        className="w-12 h-12 rounded object-cover"
-                      />
-                      {!isCompressed && (
-                        <div>
-                          <p className="text-sm font-medium">{playlist.name}</p>
-                          <p className="text-xs text-zinc-400">Playlist • Dapao</p>
-                        </div>
-                      )}
+            {filteredPlaylists.length === 0 ? (
+              <div className="text-center text-sm text-zinc-400 py-4">
+                No playlists found
+              </div>
+            ) : (
+              filteredPlaylists.map((playlist) => (
+                <ContextMenu key={playlist.id}>
+                  <ContextMenuTrigger>
+                    <div
+                      draggable
+                      onDragStart={() => handleDragStart(playlist)}
+                      onDragOver={(e) => handleDragOver(e, playlist)}
+                      onDragEnd={handleDragEnd}
+                      className={`flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer ${
+                        draggedPlaylist?.id === playlist.id ? 'opacity-50' : ''
+                      }`}
+                    >
+                      <div className="flex items-center gap-3 flex-1">
+                        <GripVertical size={16} className="text-zinc-400 cursor-grab active:cursor-grabbing" />
+                        <img 
+                          src={playlist.image} 
+                          alt={playlist.name}
+                          className="w-12 h-12 rounded object-cover"
+                        />
+                        {!isCompressed && (
+                          <div>
+                            <p className="text-sm font-medium">{playlist.name}</p>
+                            <p className="text-xs text-zinc-400">Playlist • Dapao</p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </ContextMenuTrigger>
-                <ContextMenuContent className="w-48">
-                  <ContextMenuItem 
-                    className="flex items-center gap-2 cursor-pointer"
-                    onClick={() => openEditDialog(playlist)}
-                  >
-                    <Pencil size={16} />
-                    Edit
-                  </ContextMenuItem>
-                  <ContextMenuSeparator />
-                  <ContextMenuItem 
-                    className="flex items-center gap-2 text-red-500 cursor-pointer"
-                    onClick={() => setDeletePlaylist(playlist)}
-                  >
-                    <Trash2 size={16} />
-                    Delete
-                  </ContextMenuItem>
-                </ContextMenuContent>
-              </ContextMenu>
-            ))}
+                  </ContextMenuTrigger>
+                  <ContextMenuContent className="w-48">
+                    <ContextMenuItem 
+                      className="flex items-center gap-2 cursor-pointer"
+                      onClick={() => openEditDialog(playlist)}
+                    >
+                      <Pencil size={16} />
+                      Edit
+                    </ContextMenuItem>
+                    <ContextMenuSeparator />
+                    <ContextMenuItem 
+                      className="flex items-center gap-2 text-red-500 cursor-pointer"
+                      onClick={() => setDeletePlaylist(playlist)}
+                    >
+                      <Trash2 size={16} />
+                      Delete
+                    </ContextMenuItem>
+                  </ContextMenuContent>
+                </ContextMenu>
+              ))
+            )}
           </div>
         </div>
       </div>
