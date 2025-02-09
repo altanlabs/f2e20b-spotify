@@ -1,8 +1,8 @@
 "use client"
 
-import { Home, Library, Plus, PanelLeftClose, PanelLeftOpen, Pencil, Trash2 } from "lucide-react"
+import { Home, Library, Plus, PanelLeftClose, PanelLeftOpen, Pencil, Trash2, GripVertical } from "lucide-react"
 import { useState } from "react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -13,6 +13,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog"
 
 const DEFAULT_PLAYLIST_IMAGE = "https://api.altan.ai/platform/media/34538779-fdee-47f4-a828-525285759c47?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
 
@@ -51,10 +52,12 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
   const [dialogMode, setDialogMode] = useState<DialogMode>(null)
   const [playlists, setPlaylists] = useState<Playlist[]>(INITIAL_PLAYLISTS)
   const [editingPlaylist, setEditingPlaylist] = useState<Playlist | null>(null)
+  const [deletePlaylist, setDeletePlaylist] = useState<Playlist | null>(null)
   const [formData, setFormData] = useState({
     name: "",
     image: null as File | null
   })
+  const [draggedPlaylist, setDraggedPlaylist] = useState<Playlist | null>(null)
 
   const handleCreatePlaylist = () => {
     if (formData.name) {
@@ -90,8 +93,11 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
     }
   }
 
-  const handleDeletePlaylist = (playlistId: string) => {
-    setPlaylists(playlists.filter(playlist => playlist.id !== playlistId))
+  const handleDeleteConfirm = () => {
+    if (deletePlaylist) {
+      setPlaylists(playlists.filter(playlist => playlist.id !== deletePlaylist.id))
+      setDeletePlaylist(null)
+    }
   }
 
   const openCreateDialog = () => {
@@ -116,6 +122,28 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
     if (e.target.files && e.target.files[0]) {
       setFormData({ ...formData, image: e.target.files[0] })
     }
+  }
+
+  const handleDragStart = (playlist: Playlist) => {
+    setDraggedPlaylist(playlist)
+  }
+
+  const handleDragOver = (e: React.DragEvent, targetPlaylist: Playlist) => {
+    e.preventDefault()
+    if (!draggedPlaylist || draggedPlaylist.id === targetPlaylist.id) return
+
+    const draggedIndex = playlists.findIndex(p => p.id === draggedPlaylist.id)
+    const targetIndex = playlists.findIndex(p => p.id === targetPlaylist.id)
+    
+    const newPlaylists = [...playlists]
+    newPlaylists.splice(draggedIndex, 1)
+    newPlaylists.splice(targetIndex, 0, draggedPlaylist)
+    
+    setPlaylists(newPlaylists)
+  }
+
+  const handleDragEnd = () => {
+    setDraggedPlaylist(null)
   }
 
   return (
@@ -169,28 +197,30 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
             {playlists.map((playlist) => (
               <ContextMenu key={playlist.id}>
                 <ContextMenuTrigger>
-                  <a
-                    href="/playlist/paaau"
-                    className="flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer"
-                    onClick={(e) => {
-                      // Prevent navigation if right-clicked
-                      if (e.button === 2) {
-                        e.preventDefault()
-                      }
-                    }}
+                  <div
+                    draggable
+                    onDragStart={() => handleDragStart(playlist)}
+                    onDragOver={(e) => handleDragOver(e, playlist)}
+                    onDragEnd={handleDragEnd}
+                    className={`flex items-center gap-3 p-2 rounded-md hover:bg-white/10 transition cursor-pointer ${
+                      draggedPlaylist?.id === playlist.id ? 'opacity-50' : ''
+                    }`}
                   >
-                    <img 
-                      src={playlist.image} 
-                      alt={playlist.name}
-                      className="w-12 h-12 rounded object-cover"
-                    />
-                    {!isCompressed && (
-                      <div>
-                        <p className="text-sm font-medium">{playlist.name}</p>
-                        <p className="text-xs text-zinc-400">Playlist • Dapao</p>
-                      </div>
-                    )}
-                  </a>
+                    <div className="flex items-center gap-3 flex-1">
+                      <GripVertical size={16} className="text-zinc-400 cursor-grab active:cursor-grabbing" />
+                      <img 
+                        src={playlist.image} 
+                        alt={playlist.name}
+                        className="w-12 h-12 rounded object-cover"
+                      />
+                      {!isCompressed && (
+                        <div>
+                          <p className="text-sm font-medium">{playlist.name}</p>
+                          <p className="text-xs text-zinc-400">Playlist • Dapao</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </ContextMenuTrigger>
                 <ContextMenuContent className="w-48">
                   <ContextMenuItem 
@@ -203,7 +233,7 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
                   <ContextMenuSeparator />
                   <ContextMenuItem 
                     className="flex items-center gap-2 text-red-500 cursor-pointer"
-                    onClick={() => handleDeletePlaylist(playlist.id)}
+                    onClick={() => setDeletePlaylist(playlist)}
                   >
                     <Trash2 size={16} />
                     Delete
@@ -256,6 +286,27 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deletePlaylist !== null} onOpenChange={() => setDeletePlaylist(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Playlist</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete "{deletePlaylist?.name}"? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteConfirm}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }
