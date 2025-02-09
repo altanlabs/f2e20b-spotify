@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 
+const DEFAULT_PLAYLIST_IMAGE = "https://api.altan.ai/platform/media/34538779-fdee-47f4-a828-525285759c47?account_id=8cd115a4-5f19-42ef-bc62-172f6bff28e7"
+
 const PLAYLISTS = [
   {
     name: "Paaau",
@@ -36,8 +38,11 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
   })
 
   const handleCreatePlaylist = () => {
-    if (newPlaylist.name && newPlaylist.image) {
-      const imageUrl = URL.createObjectURL(newPlaylist.image)
+    if (newPlaylist.name) {
+      const imageUrl = newPlaylist.image 
+        ? URL.createObjectURL(newPlaylist.image)
+        : DEFAULT_PLAYLIST_IMAGE
+
       setPlaylists([...playlists, {
         name: newPlaylist.name,
         image: imageUrl
@@ -141,7 +146,7 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="image">Cover Image</Label>
+              <Label htmlFor="image">Cover Image (Optional)</Label>
               <Input
                 id="image"
                 type="file"
@@ -150,8 +155,19 @@ export function SpotifySidebar({ isCompressed, onToggleCompress }: SpotifySideba
               />
             </div>
           </div>
-          <div className="flex justify-end">
-            <Button onClick={handleCreatePlaylist}>Create Playlist</Button>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => {
+              setIsCreateOpen(false)
+              setNewPlaylist({ name: "", image: null })
+            }}>
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleCreatePlaylist}
+              disabled={!newPlaylist.name}
+            >
+              Create Playlist
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
