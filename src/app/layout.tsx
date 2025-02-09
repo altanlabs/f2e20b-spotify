@@ -33,10 +33,10 @@ export default function RootLayout({
 
   return (
     <PlayerContext.Provider value={{ currentSongIndex, setCurrentSongIndex, shouldPlay, setShouldPlay }}>
-      <div className="fixed inset-0 bottom-[48px] flex flex-col bg-black"> {/* Added bottom offset for taskbar */}
-        <div className="flex flex-1 overflow-hidden">
+      <div className="w-full h-[100vh] flex flex-col bg-black">
+        <div className="flex flex-1 min-h-0"> {/* min-h-0 prevents flex children from expanding */}
           {/* Sidebar */}
-          <div className={`h-full transition-all duration-300 ${isSidebarCompressed ? 'w-24' : 'w-[280px]'} p-2`}>
+          <div className={`transition-all duration-300 ${isSidebarCompressed ? 'w-24' : 'w-[280px]'} p-2`}>
             <SpotifySidebar 
               isCompressed={isSidebarCompressed} 
               onToggleCompress={setIsSidebarCompressed}
@@ -44,7 +44,7 @@ export default function RootLayout({
           </div>
 
           {/* Main content */}
-          <div className="flex-1 p-2 pl-0">
+          <div className="flex-1 p-2 pl-0 min-w-0"> {/* min-w-0 prevents flex children from expanding */}
             <div className="h-full rounded-lg bg-gradient-to-b from-zinc-800/50 to-black flex flex-col">
               <AppHeader />
               <div className="flex-1 overflow-auto">
@@ -55,7 +55,7 @@ export default function RootLayout({
         </div>
 
         {/* Player bar */}
-        <div className="h-24 bg-black">
+        <div className="flex-shrink-0 h-24 bg-black">
           <NowPlayingBar 
             currentSongIndex={currentSongIndex}
             setCurrentSongIndex={setCurrentSongIndex}
