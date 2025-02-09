@@ -33,21 +33,19 @@ export default function RootLayout({
 
   return (
     <PlayerContext.Provider value={{ currentSongIndex, setCurrentSongIndex, shouldPlay, setShouldPlay }}>
-      <div className="h-screen flex flex-col bg-black overflow-hidden">
-        <div className="flex flex-1 min-h-0"> {/* min-h-0 is crucial for nested flex containers */}
-          {/* Sidebar with compressed state control */}
-          <div className={`shrink-0 p-2 transition-all duration-300 ${isSidebarCompressed ? 'w-24' : 'w-[280px]'}`}>
+      <div className="fixed inset-0 flex flex-col bg-black">
+        <div className="flex flex-1 overflow-hidden">
+          {/* Sidebar */}
+          <div className={`h-full transition-all duration-300 ${isSidebarCompressed ? 'w-24' : 'w-[280px]'} p-2`}>
             <SpotifySidebar 
               isCompressed={isSidebarCompressed} 
               onToggleCompress={setIsSidebarCompressed}
             />
           </div>
 
-          {/* Main content area that adapts to sidebar state */}
-          <div className={`flex-1 min-w-0 transition-all duration-300 ${
-            isSidebarCompressed ? 'pl-0' : 'pl-2'
-          } pr-2 pt-2`}>
-            <div className="flex flex-col h-full bg-gradient-to-b from-zinc-800/50 to-black rounded-lg">
+          {/* Main content */}
+          <div className="flex-1 p-2 pl-0">
+            <div className="h-full rounded-lg bg-gradient-to-b from-zinc-800/50 to-black flex flex-col">
               <AppHeader />
               <div className="flex-1 overflow-auto">
                 {children}
@@ -56,8 +54,8 @@ export default function RootLayout({
           </div>
         </div>
 
-        {/* Now playing bar */}
-        <div className="flex-shrink-0 h-24">
+        {/* Player bar */}
+        <div className="h-24">
           <NowPlayingBar 
             currentSongIndex={currentSongIndex}
             setCurrentSongIndex={setCurrentSongIndex}
